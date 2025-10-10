@@ -1,7 +1,7 @@
 <script setup>
-import TypeFilter from '@/components/SearchView/TypeFilter.vue';
-import SearchFilterSwitch from '@/components/SearchView/SearchFilterSwitch.vue';
-import SearchFilterButtonGroup from '@/components/SearchView/SearchFilterButtonGroup.vue';
+import TypeFilter from '@/components/ImageView/TypeFilter.vue';
+import FilterSwitch from '@/components/ImageView/FilterSwitch.vue';
+import FilterButtonGroup from '@/components/ImageView/FilterButtonGroup.vue';
 </script>
 
 <script>
@@ -46,37 +46,37 @@ export default {
     <div class="flex w-18/20 mx-auto flex-col text-sm">
 
         <div class="flex mt-4 space-x-4">
-            <SearchFilterButtonGroup :query_options="{ '按收藏': 'favourite', '按浏览': 'otag', '标题/描述': 'des' }" query_key="sorttype">
-            </SearchFilterButtonGroup>
+            <FilterButtonGroup :query_options="{ '按收藏': 'favourite', '按浏览': 'otag', '标题/描述': 'des' }" query_key="sorttype">
+            </FilterButtonGroup>
         </div>
 
         <div class="flex mt-4 space-x-4">
-            <SearchFilterButtonGroup :query_options="{ '部分标签': 'tag', '全部标签': 'otag', '标题/描述': 'des' }" query_key="tagtype">
-            </SearchFilterButtonGroup>
+            <FilterButtonGroup :query_options="{ '部分标签': 'tag', '全部标签': 'otag', '标题/描述': 'des' }" query_key="tagtype">
+            </FilterButtonGroup>
         </div>
 
         <div class="flex mt-4 space-x-4">
-            <SearchFilterButtonGroup
+            <FilterButtonGroup
                 :query_options="{ '所有收藏数': 'all', '5000 以上': '5000:', '2500 以上': '2500:', '1000 以上': '1000:', '250 以上': '250:' }"
                 query_key="favourite">
-            </SearchFilterButtonGroup>
+            </FilterButtonGroup>
         </div>
 
         <div class="flex mt-4 space-x-4">
-            <SearchFilterButtonGroup
+            <FilterButtonGroup
                 :query_options="{ '所有浏览量': 'all', '5 万以上': '50000:', '2.5 万以上': '25000:', '1 万以上': '10000:', '2500 以上': '2500:' }"
                 query_key="views">
-            </SearchFilterButtonGroup>
+            </FilterButtonGroup>
         </div>
 
         <div class="flex mt-4 space-x-4">
-            <SearchFilterButtonGroup :query_options="query_time_options" query_key="posttime">
-            </SearchFilterButtonGroup>
+            <FilterButtonGroup :query_options="query_time_options" query_key="posttime">
+            </FilterButtonGroup>
         </div>
 
         <div class="flex align-middle items-center mt-4">
             <span>包含 AI 生成作品</span>
-            <SearchFilterSwitch query_key="ignore_ai" class="mx-3" />
+            <FilterSwitch query_key="ignore_ai" class="mx-3" />
         </div>
 
     </div>

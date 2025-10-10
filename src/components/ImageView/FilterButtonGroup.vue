@@ -1,5 +1,5 @@
 <script setup>
-import SearchFilterButton from './SearchFilterButton.vue';
+import FilterButton from './FilterButton.vue';
 </script>
 
 <script>
@@ -22,9 +22,9 @@ export default {
 <template>
     <!-- 首个按钮会视作默认行为，在URL query参数中即使没有包含也会高亮 -->
     <template v-for="value, name of query_options">
-        <SearchFilterButton :filter_key="query_key"
+        <FilterButton :filter_key="query_key"
             :filter_value="query_options[Object.keys(query_options)[0]] == value ? undefined : value">
             {{ name }}
-        </SearchFilterButton>
+        </FilterButton>
     </template>
 </template>
