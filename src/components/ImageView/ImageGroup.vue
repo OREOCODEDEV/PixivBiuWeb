@@ -1,35 +1,58 @@
 <script setup>
 import axios from 'axios';
+import Image from './Image.vue';
 </script>
 
 <script>
 export default {
     data() {
         return {
-            response_data: null
+            response_data: null,
+            display_data: null,
+            last_request_params: {
+                "kt": this.$route.params["search_content"],
+                "mode": this.get_query_safe("tagtype", "tag"),
+                'totalPage': 3,
+                'isCache': 1,
+                'groupIndex': 0,
+                'isAiWork': this.get_query_safe("ignore_ai", false) ? 1 : 0
+            }
+        }
+    },
+    watch: {
+        last_request_params() {
+            this.refresh_request_data()
         }
     },
     methods: {
-        refresh() {
-            console.log("aaaa")
-            return
-            axios.get()
+        get_query_safe(key, default_value) {
+            // 从查询参数中取值，无则返回默认参数的值
+            return this.$route.query[key] === undefined ? default_value : this.$route.query[key]
+        },
+        refresh_request_data() {
+            // return
+            axios.get("/api/biu/search/works/", {
+                params: this.last_request_params
+            })
                 .then((response) => {
-                    response_data = response
+                    this.response_data = response
+                    this.refresh_local_data()
                 })
+        },
+        refresh_local_data() {
+            this.display_data = this.response_data.data.msg.rst.data
         }
     },
     mounted() {
-        this.refresh()
-    },
-    beforeRouteLeave(to, from) {
-        // 在导航离开渲染该组件的对应路由时调用
-        // 与 `beforeRouteUpdate` 一样，它可以访问组件实例 `this`
-        this.refresh()
+        this.refresh_request_data()
     },
 }
 </script>
 
 <template>
-    {{ response_data }}
+    <div class="grid grid-cols-3 gap-8 2xl:grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3">
+        <template v-for="current_data of display_data">
+            <Image :image_data="current_data"></Image>
+        </template>
+    </div>
 </template>
