@@ -51,7 +51,7 @@ export default {
 
 <template>
     <div class="flex">
-        <div class="grid grid-cols-3 gap-8 2xl:grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3">
+        <div class="grid grid-cols-4 gap-8 2xl:grid-cols-8 xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-5">
             <template v-for="current_data of display_data">
                 <Image :image_data="current_data"></Image>
             </template>
