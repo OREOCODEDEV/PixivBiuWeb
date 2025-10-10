@@ -28,22 +28,22 @@ const router = createRouter({
         {
           path: "all",
           name: "search-all",
-          component: () => import("../views/SearchView/All.vue"),
+          component: () => import("../views/SearchView/Image.vue"),
         },
         {
           path: "illustrations",
           name: "search-illustrations",
-          component: () => import("../views/SearchView/Illustrations.vue"),
+          component: () => import("../views/SearchView/Image.vue"),
         },
         {
           path: "manga",
           name: "search-manga",
-          component: () => import("../views/SearchView/Illustrations.vue"),
+          component: () => import("../views/SearchView/Image.vue"),
         },
         {
           path: "dynamic",
           name: "search-dynamic",
-          component: () => import("../views/SearchView/Illustrations.vue"),
+          component: () => import("../views/SearchView/Image.vue"),
         },
         {
           path: "users",
