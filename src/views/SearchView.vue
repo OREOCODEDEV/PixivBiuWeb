@@ -1,5 +1,5 @@
 <script setup>
-import TypeFilter from '@/components/ImageView/TypeFilter.vue';
+import FilterType from '@/components/ImageView/FilterType.vue';
 import FilterSwitch from '@/components/ImageView/FilterSwitch.vue';
 import FilterButtonGroup from '@/components/ImageView/FilterButtonGroup.vue';
 </script>
@@ -10,7 +10,7 @@ export default {
         return {
         }
     },
-    components: [TypeFilter],
+    components: [FilterType],
     methods: {
     },
     computed: {
@@ -39,7 +39,7 @@ export default {
 </script>
 
 <template>
-    <TypeFilter class="pt-8" />
+    <FilterType class="pt-8" />
 
     <div class="bg-gray-100 h-0.5 mt-1"></div>
 
