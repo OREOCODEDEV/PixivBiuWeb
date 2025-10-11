@@ -48,7 +48,7 @@ export default {
                 <div class="flex mx-auto bg-white rounded-xl overflow-hidden" @click.stop>
                     <div class="flex">
                         <div class="flex">
-                            <img class="flex h-auto object-contain" v-show="original_image_load_state"
+                            <img class="flex h-min object-contain" v-show="original_image_load_state"
                                 :src="image_data.image_urls.large.replace('https://i.pximg.net', 'https://i.pixiv.re')"
                                 ref="img_large">
                             </img>
