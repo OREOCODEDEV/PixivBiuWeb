@@ -78,11 +78,12 @@ export default {
                         </img>
                     </div> -->
 
-                    <img class="object-contain" v-show="original_image_load_state"
-                        :src="image_data.image_urls.large.replace('https://i.pximg.net', 'https://i.pixiv.re')"
-                        ref="img_large">
-                    </img>
-
+                    <div class="flex">
+                        <img class="object-contain" v-show="original_image_load_state"
+                            :src="image_data.image_urls.large.replace('https://i.pximg.net', 'https://i.pixiv.re')"
+                            ref="img_large">
+                        </img>
+                    </div>
 
                     <div class="flex flex-col p-5 gap-2">
                         <span class="font-bold text-2xl">
