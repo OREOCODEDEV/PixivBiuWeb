@@ -2,7 +2,7 @@
 import axios from 'axios';
 import Image from './Image.vue';
 import ImageModal from './ImageModal.vue';
-import ImageModalContent from './ImageModalContent.vue';
+import raw_test_data from "../../assets/testcase/result.json"
 </script>
 
 <script>
@@ -34,6 +34,12 @@ export default {
         },
         refresh_request_data() {
             // return
+            if (this.last_request_params["kt"] == "PixivBiu:Dev") {
+                this.response_data = this.generate_dev_data()
+                this.refresh_local_data()
+                return
+            }
+
             axios.get("/api/biu/search/works/", {
                 params: this.last_request_params
             })
@@ -54,6 +60,56 @@ export default {
                     this.modal_data = image_data
                     this.$refs.image_model.show()
             }
+        },
+        // 生成测试数据
+        // http://localhost:5173/search/PixivBiu:Dev/all
+        generate_dev_data() {
+            console.log("Generate - DevData...")
+            let result = raw_test_data
+            let generate_image_data_raw = raw_test_data.msg.rst.data[0]
+            result.msg.rst.data = []
+
+            let test_resolution_group = ["720P", "1080P", "2K", "4K"]
+            let test_direction = ["V", "H"]
+            for (let current_resolution of test_resolution_group) {
+                for (let current_direction of test_direction) {
+
+                    let generate_image_data = JSON.parse(JSON.stringify(generate_image_data_raw))
+
+                    let current_direction_chr = ""
+                    if (current_direction == "V") {
+                        current_direction_chr = "竖向"
+                    } else {
+                        current_direction_chr = "横向"
+                    }
+
+                    generate_image_data.all.caption = `测试(简介)-${current_resolution}-${current_direction_chr}`
+                    let image_link_group = {
+                        large: `http://localhost:5173/src/assets/testcase/${current_resolution}${current_direction}.png`,
+                        medium: `http://localhost:5173/src/assets/testcase/${current_resolution}${current_direction}.png`,
+                        original: `http://localhost:5173/src/assets/testcase/${current_resolution}${current_direction}.png`,
+                        square_medium: `http://localhost:5173/src/assets/testcase/${current_resolution}${current_direction}.png`
+                    }
+                    generate_image_data.all.image_urls = image_link_group
+                    generate_image_data.all.meta_pages = { image_urls: [image_link_group] }
+                    generate_image_data.all.tags = [{ name: `PixivBiu:Dev`, translated_name: null }]
+                    generate_image_data.all.tags.push({ name: `分辨率-${current_resolution}`, translated_name: null })
+                    generate_image_data.all.tags.push({ name: `方向-${current_direction_chr}`, translated_name: null })
+                    generate_image_data.all.title = `${current_resolution}-${current_direction_chr}`
+
+                    generate_image_data.caption = `测试(简介)-${current_resolution}-${current_direction_chr}`
+                    generate_image_data.image_urls = image_link_group
+                    generate_image_data.tags = ["PixivBiu:Dev", `分辨率-${current_resolution}`, `方向-${current_direction_chr}`]
+                    generate_image_data.title = `${current_resolution}-${current_direction_chr}`
+
+                    console.log("Generating", current_resolution, current_direction)
+                    console.log(generate_image_data)
+                    result.msg.rst.data.push(generate_image_data)
+                }
+            }
+            result.msg.rst.total = result.msg.rst.data.length
+            console.log(result)
+            return { data: result }
         }
     },
     mounted() {

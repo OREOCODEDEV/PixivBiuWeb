@@ -1,0 +1,113 @@
+{
+    "code": 2,
+    "msg": {
+        "args": {
+            "fun": {
+                "kt": "PixivBiu:Dev",
+                "mode": "tag"
+            },
+            "ops": {
+                "groupIndex": "0",
+                "isAiWork": "0",
+                "isCache": "1",
+                "isSort": "0",
+                "method": "works",
+                "sortMode": "0",
+                "totalPage": "1"
+            }
+        },
+        "rst": {
+            "api": "app",
+            "data": [
+                {
+                    "all": {
+                        "caption": "测试-720P横向-单页",
+                        "create_date": "2025-10-10T00:00:00+08:00",
+                        "event_banners": null,
+                        "height": 1024,
+                        "id": 1024,
+                        "illust_ai_type": 2,
+                        "illust_book_style": 0,
+                        "image_urls": {
+                            "large": "http://localhost:5173/src/assets/testcase/720PH.png",
+                            "medium": "http://localhost:5173/src/assets/testcase/720PH.png",
+                            "original": "http://localhost:5173/src/assets/testcase/720PH.png",
+                            "square_medium": "http://localhost:5173/src/assets/testcase/720PH.png"
+                        },
+                        "is_bookmarked": false,
+                        "is_muted": false,
+                        "meta_pages": [
+                            {
+                                "image_urls": {
+                                    "large": "http://localhost:5173/src/assets/testcase/720PH.png",
+                                    "medium": "http://localhost:5173/src/assets/testcase/720PH.png",
+                                    "original": "http://localhost:5173/src/assets/testcase/720PH.png",
+                                    "square_medium": "http://localhost:5173/src/assets/testcase/720PH.png"
+                                }
+                            }
+                        ],
+                        "meta_single_page": {},
+                        "page_count": 1,
+                        "request": null,
+                        "restrict": 0,
+                        "restriction_attributes": [
+                            "restricted_mode"
+                        ],
+                        "sanity_level": 6,
+                        "seasonal_effect_animation_urls": null,
+                        "series": null,
+                        "tags": [
+                            {
+                                "name": "PixivBiu:Dev",
+                                "translated_name": null
+                            }
+                        ],
+                        "title": "720P横向",
+                        "tools": [],
+                        "total_bookmarks": 1024,
+                        "total_view": 1024,
+                        "type": "illust",
+                        "user": {
+                            "account": "OREOCODEDEV",
+                            "id": 44567805,
+                            "is_accept_request": false,
+                            "is_followed": false,
+                            "name": "OREOCODEDEV",
+                            "profile_image_urls": {
+                                "medium": "https://s.pximg.net/common/images/no_profile_s.png"
+                            }
+                        },
+                        "visible": true,
+                        "width": 1024,
+                        "x_restrict": 1
+                    },
+                    "author": {
+                        "account": "OREOCODEDEV",
+                        "id": 44567805,
+                        "is_followed": false,
+                        "name": "OREOCODEDEV"
+                    },
+                    "caption": "测试-720P横向-单页",
+                    "created_time": "2025-10-10T00:00:00+08:00",
+                    "id": 120386498,
+                    "image_urls": {
+                        "large": "http://localhost:5173/src/assets/testcase/720PH.png",
+                        "medium": "http://localhost:5173/src/assets/testcase/720PH.png",
+                        "original": "http://localhost:5173/src/assets/testcase/720PH.png",
+                        "square_medium": "http://localhost:5173/src/assets/testcase/720PH.png"
+                    },
+                    "is_bookmarked": false,
+                    "tags": [
+                        "PixivBiu:Dev"
+                    ],
+                    "title": "720P横向",
+                    "total_bookmarked": 1024,
+                    "total_viewed": 1024,
+                    "type": "illustration"
+                }
+            ],
+            "total": 1
+        },
+        "way": "search"
+    }
+}

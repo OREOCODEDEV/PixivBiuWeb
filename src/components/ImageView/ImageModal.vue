@@ -43,8 +43,8 @@ export default {
     <div class="absolute fixed flex top-0 left-0 right-0 bottom-0 z-20 bg-black/40 bg-scroll" v-if="image_data !== null"
         v-show="show_state" @click="hide">
         <div class="flex w-screen h-screen items-center">
-            <div class="flex grow mx-20 my-20 max-md:p-0">
-                <div class="flex bg-white mx-auto rounded-xl relative" @click.stop>
+            <div class="flex grow px-40 py-20 max-h-screen max-md:p-0">
+                <div class="flex bg-white mx-auto rounded-xl relative overflow-hidden" @click.stop>
 
                     <!-- 关闭按钮
                     <div class="absolute fixed flex top-0 right-0">
