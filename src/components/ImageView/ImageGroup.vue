@@ -1,6 +1,8 @@
 <script setup>
 import axios from 'axios';
 import Image from './Image.vue';
+import ImageModal from './ImageModal.vue';
+import ImageModalContent from './ImageModalContent.vue';
 </script>
 
 <script>
@@ -16,7 +18,8 @@ export default {
                 'isCache': 1,
                 'groupIndex': 0,
                 'isAiWork': this.get_query_safe("ignore_ai", false) ? 1 : 0
-            }
+            },
+            modal_data: null,
         }
     },
     watch: {
@@ -41,6 +44,16 @@ export default {
         },
         refresh_local_data() {
             this.display_data = this.response_data.data.msg.rst.data
+        },
+        click_image_content(content, image_data) {
+            switch (content) {
+                case "image":
+                    this.modal_data = image_data
+                    this.$refs.image_model.show()
+                case "title":
+                    this.modal_data = image_data
+                    this.$refs.image_model.show()
+            }
         }
     },
     mounted() {
@@ -53,8 +66,11 @@ export default {
     <div class="flex">
         <div class="grid grid-cols-4 gap-8 2xl:grid-cols-8 xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-5">
             <template v-for="current_data of display_data">
-                <Image :image_data="current_data"></Image>
+                <Image :image_data="current_data" @click_content="click_image_content"></Image>
             </template>
         </div>
     </div>
+    <!-- 避免放到Image中导致DOM数量增加 -->
+    <ImageModal :image_data="modal_data" ref="image_model">
+    </ImageModal>
 </template>
