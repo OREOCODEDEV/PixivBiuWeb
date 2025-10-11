@@ -69,8 +69,8 @@ export default {
             let generate_image_data_raw = raw_test_data.msg.rst.data[0]
             result.msg.rst.data = []
 
-            let test_resolution_group = ["720P", "1080P", "2K", "4K"]
-            let test_direction = ["V", "H"]
+            let test_resolution_group = ["360P", "720P", "1080P", "2K", "4K"]
+            let test_direction = ["H", "V"]
             for (let current_resolution of test_resolution_group) {
                 for (let current_direction of test_direction) {
 
