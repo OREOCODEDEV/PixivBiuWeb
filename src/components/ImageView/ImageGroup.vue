@@ -71,42 +71,40 @@ export default {
 
             let test_resolution_group = ["360P", "720P", "1080P", "2K", "4K"]
             let test_direction = ["H", "V"]
+
+            function mender(target_data, resolution, direction) {
+                target_data = JSON.parse(JSON.stringify(target_data))
+
+                let direction_chr = { "V": "竖向", "H": "横向" }[direction]
+
+                target_data.all.caption = `测试(简介)-${resolution}-${direction_chr}`
+                let image_link_group = {
+                    large: `http://localhost:5173/src/assets/testcase/${resolution}${direction}.png`,
+                    medium: `http://localhost:5173/src/assets/testcase/${resolution}${direction}.png`,
+                    original: `http://localhost:5173/src/assets/testcase/${resolution}${direction}.png`,
+                    square_medium: `http://localhost:5173/src/assets/testcase/${resolution}${direction}.png`
+                }
+                target_data.all.image_urls = image_link_group
+                target_data.all.meta_pages = { image_urls: [image_link_group] }
+                target_data.all.tags = [{ name: `PixivBiu:Dev`, translated_name: null }]
+                target_data.all.tags.push({ name: `分辨率-${resolution}`, translated_name: null })
+                target_data.all.tags.push({ name: `方向-${direction_chr}`, translated_name: null })
+                target_data.all.title = `${resolution}-${direction_chr}`
+
+                target_data.caption = `测试(简介)-${resolution}-${direction_chr}`
+                target_data.image_urls = image_link_group
+                target_data.tags = ["PixivBiu:Dev", `分辨率-${resolution}`, `方向-${direction_chr}`]
+                target_data.title = `${resolution}-${direction_chr}`
+
+                return target_data
+            }
+
             for (let current_resolution of test_resolution_group) {
                 for (let current_direction of test_direction) {
-
-                    let generate_image_data = JSON.parse(JSON.stringify(generate_image_data_raw))
-
-                    let current_direction_chr = ""
-                    if (current_direction == "V") {
-                        current_direction_chr = "竖向"
-                    } else {
-                        current_direction_chr = "横向"
-                    }
-
-                    generate_image_data.all.caption = `测试(简介)-${current_resolution}-${current_direction_chr}`
-                    let image_link_group = {
-                        large: `http://localhost:5173/src/assets/testcase/${current_resolution}${current_direction}.png`,
-                        medium: `http://localhost:5173/src/assets/testcase/${current_resolution}${current_direction}.png`,
-                        original: `http://localhost:5173/src/assets/testcase/${current_resolution}${current_direction}.png`,
-                        square_medium: `http://localhost:5173/src/assets/testcase/${current_resolution}${current_direction}.png`
-                    }
-                    generate_image_data.all.image_urls = image_link_group
-                    generate_image_data.all.meta_pages = { image_urls: [image_link_group] }
-                    generate_image_data.all.tags = [{ name: `PixivBiu:Dev`, translated_name: null }]
-                    generate_image_data.all.tags.push({ name: `分辨率-${current_resolution}`, translated_name: null })
-                    generate_image_data.all.tags.push({ name: `方向-${current_direction_chr}`, translated_name: null })
-                    generate_image_data.all.title = `${current_resolution}-${current_direction_chr}`
-
-                    generate_image_data.caption = `测试(简介)-${current_resolution}-${current_direction_chr}`
-                    generate_image_data.image_urls = image_link_group
-                    generate_image_data.tags = ["PixivBiu:Dev", `分辨率-${current_resolution}`, `方向-${current_direction_chr}`]
-                    generate_image_data.title = `${current_resolution}-${current_direction_chr}`
-
-                    console.log("Generating", current_resolution, current_direction)
-                    console.log(generate_image_data)
-                    result.msg.rst.data.push(generate_image_data)
+                    result.msg.rst.data.push(mender(generate_image_data_raw, current_resolution, current_direction))
                 }
             }
+
             result.msg.rst.total = result.msg.rst.data.length
             console.log(result)
             return { data: result }
