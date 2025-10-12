@@ -1,8 +1,14 @@
+<script setup>
+import LodIco from './LodIco.vue';
+</script>
+
 <script>
+
 import { nextTick } from 'vue';
 
 export default {
     props: ["image_data"],
+    components: [LodIco],
     data() {
         return {
             show_state: true,
@@ -45,7 +51,10 @@ export default {
         <!-- max-h-screen self-stretch  -->
         <div class="flex px-40 py-20 grow max-h-screen">
             <div class="flex grow">
-                <div class="flex mx-auto bg-white rounded-xl overflow-hidden relative" @click.stop>
+                <div class="flex mx-auto bg-white rounded-xl overflow-hidden relative flex-row" @click.stop>
+                    <!-- 下为弹窗内容 -->
+
+                    <!-- 关闭按钮 -->
                     <div class="absolute flex top-0 right-0">
                         <div class="flex m-3 p-3 rounded-full hover:bg-gray-200 cursor-pointer" @click="hide">
                             <svg viewBox="0 0 24 24" aria-hidden="true" class="h-5 w-5">
@@ -57,14 +66,18 @@ export default {
                             </svg>
                         </div>
                     </div>
+
                     <div class="flex">
                         <div class="flex">
+                            <img class="object-contain" v-show="!original_image_load_state"
+                                :src="image_data.image_urls.medium.replace('https://i.pximg.net', 'https://i.pixiv.re')">
+                            </img>
                             <img class="object-contain" v-show="original_image_load_state"
                                 :src="image_data.image_urls.large.replace('https://i.pximg.net', 'https://i.pixiv.re')"
                                 ref="img_large">
                             </img>
                         </div>
-                        <div class="flex flex-col p-5 gap-2">
+                        <div class="flex flex-col px-5 py-15 gap-2 max-w-60 break-all">
                             <span class="font-bold text-2xl">
                                 {{ image_data.title }}
                             </span>
@@ -72,6 +85,17 @@ export default {
                             <span class="font-bold text-sm text-gray-500">
                                 上传于 {{ image_data.created_time }}
                             </span>
+
+                            <div class="flex flex-nowrap items-center space-x-3" v-if="!original_image_load_state">
+                                <LodIco></LodIco>
+                                <span class="text-gray-500">正在加载高清版本</span>
+                            </div>
+                            <div v-else class="h-5"></div>
+
+                            <span class="text-wrap">
+                                {{ image_data.caption }}
+                            </span>
+
                         </div>
                     </div>
                 </div>
