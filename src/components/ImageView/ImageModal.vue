@@ -4,26 +4,19 @@ import { nextTick, defineComponent, ref, watch } from 'vue';
 import LoadingIcon from '@/assets/LoadingIcon.vue';
 import CrossIcon from '@/assets/CrossIcon.vue';
 
-const props = defineProps(["image_data"])
+// const props = defineProps(["image_data"])
 
 const show_state = ref(true)
 const original_image_load_state = ref(false)
-
 const img_large = ref(null)
-
-watch(() => props.image_data, async (old_data, new_data) => {
-    show_state.value = true
-    original_image_load_state.value = false
-})
+const image_data = ref(null)
 
 function img_load() {
     original_image_load_state.value = true
 }
 
-function show() {
-    if (show_state.value) {
-        return
-    }
+function show(data) {
+    image_data.value = data
     show_state.value = true
     original_image_load_state.value = false
 }
@@ -35,11 +28,15 @@ function hide() {
     show_state.value = false
 }
 
+defineExpose({
+    show: show,
+    hide: hide
+})
 </script>
 
 <template>
     <div class="fixed flex top-0 left-0 right-0 bottom-0 z-20 max-h-screen max-w-screen items-center bg-black/40"
-        v-if="props.image_data !== null" v-show="show_state" @click="hide">
+        v-if="image_data !== null" v-show="show_state" @click="hide">
         <!-- max-h-screen self-stretch  -->
         <div class="flex px-40 py-20 grow max-h-screen">
             <div class="flex grow">
@@ -56,20 +53,20 @@ function hide() {
                     <div class="flex">
                         <div class="flex">
                             <img class="object-contain" v-show="!original_image_load_state"
-                                :src="props.image_data.image_urls.medium.replace('https://i.pximg.net', 'https://i.pixiv.re')">
+                                :src="image_data.image_urls.medium.replace('https://i.pximg.net', 'https://i.pixiv.re')">
                             </img>
                             <img class="object-contain" v-show="original_image_load_state" @load="img_load"
-                                :src="props.image_data.image_urls.large.replace('https://i.pximg.net', 'https://i.pixiv.re')"
+                                :src="image_data.image_urls.large.replace('https://i.pximg.net', 'https://i.pixiv.re')"
                                 ref="img_large">
                             </img>
                         </div>
                         <div class="flex flex-col px-5 py-15 gap-2 max-w-60 break-all">
                             <span class="font-bold text-2xl">
-                                {{ props.image_data.title }}
+                                {{ image_data.title }}
                             </span>
 
                             <span class="font-bold text-sm text-gray-500">
-                                {{ props.image_data.created_time }}
+                                {{ image_data.created_time }}
                             </span>
 
                             <div class="flex flex-nowrap items-center space-x-3" v-if="!original_image_load_state">
@@ -79,7 +76,7 @@ function hide() {
                             <div v-else class="h-5"></div>
 
                             <span class="text-wrap">
-                                {{ props.image_data.caption }}
+                                {{ image_data.caption }}
                             </span>
 
                         </div>

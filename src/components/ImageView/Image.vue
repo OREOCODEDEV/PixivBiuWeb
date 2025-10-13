@@ -1,25 +1,23 @@
 <script>
 export default {
-    props: ["image_data"],
-    emits: ['click_content'],
+    props: ["image_data", "modal_ref"],
 }
 </script>
 
 <template>
     <div class="flex flex-col">
         <div class="flex rounded-xl">
-            <img
-                class="rounded-xl aspect-square hover:opacity-75 cursor-pointer object-cover object-top"
+            <img class="rounded-xl grow aspect-square hover:opacity-75 cursor-pointer object-cover object-top"
                 :src="image_data.image_urls.medium.replace('https://i.pximg.net', 'https://i.pixiv.re')"
-                @click="$emit('click_content', 'image', image_data)">
+                @click="modal_ref.show(image_data)">
             </img>
         </div>
         <div class="flex flex-col">
-            <span class="text-nowrap truncate pt-2 cursor-pointer font-bold" @click="$emit('click_content', 'title', image_data)">
+            <span class="text-nowrap truncate pt-2 cursor-pointer font-bold" @click="modal_ref.show(image_data)">
                 {{ image_data.title }}
             </span>
             <span class="text-gray-500 text-xs text-nowrap truncate pt-1 cursor-pointer"
-                @click="$emit('click_content', 'author', image_data)">
+                @click="modal_ref.show(image_data)">
                 {{ image_data.author.name }}
             </span>
         </div>
