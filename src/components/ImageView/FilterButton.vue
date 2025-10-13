@@ -28,7 +28,7 @@ export default {
 </style>
 
 <template>
-    <button class="rounded-lg h-8 w-25 text-sm cursor-pointer"
+    <button class="rounded-lg h-8 w-25 text-sm cursor-pointer hover:text-blue-500"
         :class="[$route.query[filter_key] == filter_value ? 'button-active' : '']" @click="on_click">
         <slot></slot>
     </button>

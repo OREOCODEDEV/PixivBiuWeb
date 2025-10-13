@@ -15,12 +15,12 @@ export default {
             </img>
         </div>
         <div class="flex flex-col">
-            <span class="text-nowrap truncate pt-2" @click="$emit('click_content', 'title', image_data)">
+            <span class="text-nowrap truncate pt-2 cursor-pointer font-bold" @click="$emit('click_content', 'title', image_data)">
                 {{ image_data.title }}
             </span>
-            <span class="font-semibold text-gray-500 text-nowrap truncate pt-1"
+            <span class="text-gray-500 text-xs text-nowrap truncate pt-1 cursor-pointer"
                 @click="$emit('click_content', 'author', image_data)">
-                作者：{{ image_data.author.name }}
+                {{ image_data.author.name }}
             </span>
         </div>
     </div>

@@ -1,14 +1,11 @@
-<script setup>
-import LodIco from './LodIco.vue';
-</script>
-
 <script>
 
 import { nextTick } from 'vue';
+import LoadingIcon from '@/assets/LoadingIcon.vue';
 
 export default {
     props: ["image_data"],
-    components: [LodIco],
+    components: [LoadingIcon],
     data() {
         return {
             show_state: true,
@@ -20,6 +17,7 @@ export default {
             this.show_state = true
             this.original_image_load_state = false
             await nextTick()
+            //等v-if渲染DOM后才能获取refs实例
             this.$refs.img_large.onload = () => {
                 // setTimeout(() => { this.original_image_load_state = true }, 1000)
                 this.original_image_load_state = true
@@ -86,8 +84,8 @@ export default {
                                 上传于 {{ image_data.created_time }}
                             </span>
 
-                            <div class="flex flex-nowrap items-center space-x-3" v-if="!original_image_load_state">
-                                <LodIco></LodIco>
+                            <div class="flex flex-nowrap items-center space-x-3" v-if="true">
+                                <LoadingIcon></LoadingIcon>
                                 <span class="text-gray-500">正在加载高清版本</span>
                             </div>
                             <div v-else class="h-5"></div>
