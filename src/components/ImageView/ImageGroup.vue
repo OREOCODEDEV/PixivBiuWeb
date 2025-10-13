@@ -55,10 +55,10 @@ export default {
             switch (content) {
                 case "image":
                     this.modal_data = image_data
-                    this.$refs.image_model.show()
+                    // this.$refs.image_model.show()
                 case "title":
                     this.modal_data = image_data
-                    this.$refs.image_model.show()
+                    // this.$refs.image_model.show()
             }
         },
         // 生成测试数据

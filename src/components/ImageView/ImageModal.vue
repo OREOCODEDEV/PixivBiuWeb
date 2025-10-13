@@ -1,51 +1,45 @@
-<script>
+<script setup>
 
-import { nextTick } from 'vue';
+import { nextTick, defineComponent, ref, watch } from 'vue';
 import LoadingIcon from '@/assets/LoadingIcon.vue';
+import CrossIcon from '@/assets/CrossIcon.vue';
 
-export default {
-    props: ["image_data"],
-    components: [LoadingIcon],
-    data() {
-        return {
-            show_state: true,
-            original_image_load_state: false,
-        }
-    },
-    watch: {
-        async image_data() {
-            this.show_state = true
-            this.original_image_load_state = false
-            await nextTick()
-            //等v-if渲染DOM后才能获取refs实例
-            this.$refs.img_large.onload = () => {
-                // setTimeout(() => { this.original_image_load_state = true }, 1000)
-                this.original_image_load_state = true
-            }
-        }
-    },
-    methods: {
-        show() {
-            if (this.show_state) {
-                return
-            }
-            this.show_state = true
-        },
-        hide() {
-            if (!this.show_state) {
-                return
-            }
-            this.show_state = false
-        }
-    },
-    mounted() {
-    },
+const props = defineProps(["image_data"])
+
+const show_state = ref(true)
+const original_image_load_state = ref(false)
+
+const img_large = ref(null)
+
+watch(() => props.image_data, async (old_data, new_data) => {
+    show_state.value = true
+    original_image_load_state.value = false
+})
+
+function img_load() {
+    original_image_load_state.value = true
 }
+
+function show() {
+    if (show_state.value) {
+        return
+    }
+    show_state.value = true
+    original_image_load_state.value = false
+}
+
+function hide() {
+    if (!show_state.value) {
+        return
+    }
+    show_state.value = false
+}
+
 </script>
 
 <template>
     <div class="fixed flex top-0 left-0 right-0 bottom-0 z-20 max-h-screen max-w-screen items-center bg-black/40"
-        v-if="image_data !== null" v-show="show_state" @click="hide">
+        v-if="props.image_data !== null" v-show="show_state" @click="hide">
         <!-- max-h-screen self-stretch  -->
         <div class="flex px-40 py-20 grow max-h-screen">
             <div class="flex grow">
@@ -55,43 +49,37 @@ export default {
                     <!-- 关闭按钮 -->
                     <div class="absolute flex top-0 right-0">
                         <div class="flex m-3 p-3 rounded-full hover:bg-gray-200 cursor-pointer" @click="hide">
-                            <svg viewBox="0 0 24 24" aria-hidden="true" class="h-5 w-5">
-                                <g>
-                                    <path
-                                        d="M10.59 12L4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z">
-                                    </path>
-                                </g>
-                            </svg>
+                            <CrossIcon />
                         </div>
                     </div>
 
                     <div class="flex">
                         <div class="flex">
                             <img class="object-contain" v-show="!original_image_load_state"
-                                :src="image_data.image_urls.medium.replace('https://i.pximg.net', 'https://i.pixiv.re')">
+                                :src="props.image_data.image_urls.medium.replace('https://i.pximg.net', 'https://i.pixiv.re')">
                             </img>
-                            <img class="object-contain" v-show="original_image_load_state"
-                                :src="image_data.image_urls.large.replace('https://i.pximg.net', 'https://i.pixiv.re')"
+                            <img class="object-contain" v-show="original_image_load_state" @load="img_load"
+                                :src="props.image_data.image_urls.large.replace('https://i.pximg.net', 'https://i.pixiv.re')"
                                 ref="img_large">
                             </img>
                         </div>
                         <div class="flex flex-col px-5 py-15 gap-2 max-w-60 break-all">
                             <span class="font-bold text-2xl">
-                                {{ image_data.title }}
+                                {{ props.image_data.title }}
                             </span>
 
                             <span class="font-bold text-sm text-gray-500">
-                                上传于 {{ image_data.created_time }}
+                                {{ props.image_data.created_time }}
                             </span>
 
-                            <div class="flex flex-nowrap items-center space-x-3" v-if="true">
+                            <div class="flex flex-nowrap items-center space-x-3" v-if="!original_image_load_state">
                                 <LoadingIcon></LoadingIcon>
-                                <span class="text-gray-500">正在加载高清版本</span>
+                                <span class="text-gray-500">正在加载大尺寸版本</span>
                             </div>
                             <div v-else class="h-5"></div>
 
                             <span class="text-wrap">
-                                {{ image_data.caption }}
+                                {{ props.image_data.caption }}
                             </span>
 
                         </div>
