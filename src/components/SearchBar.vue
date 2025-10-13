@@ -1,13 +1,16 @@
-<script>
-import router from '@/router';
+<script setup>
+import { useRoute } from 'vue-router'
+import { ref, onMounted } from 'vue'
 
-export default {
-    data() {
-        return {
-            search_text: "",
-        }
-    }
-}
+const route = useRoute()
+console.log(route.params)
+const search_text = ref()
+
+onMounted(() => {
+    console.log(route)
+    // debugger
+    search_text.value = route.params.search_content
+})
 </script>
 
 <template>
@@ -23,7 +26,8 @@ export default {
                 fill-rule="evenodd" clip-rule="evenodd"></path>
         </svg>
         <input type="text" class="flex-auto h-10 placeholder:text-sm focus:outline-none" placeholder="搜索作品"
-            v-model="search_text" @keyup.enter="$router.push({ name: 'search-all', params: { 'search_content': search_text } })">
+            v-model="search_text"
+            @keyup.enter="$router.push({ name: 'search-all', params: { 'search_content': search_text } })">
         <div class="px-3" v-if="search_text" @click="search_text = ''">
             <!-- 清空输入icon -->
             <svg viewBox="0 0 16 16" class="w-4 fill-white bg-gray-500 rounded-full hover:cursor-pointer">

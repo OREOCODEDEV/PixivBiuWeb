@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, defineComponent, ref, watch, onMounted } from 'vue';
+import { nextTick, defineComponent, ref, watch, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router'
 
 import axios from 'axios';
@@ -19,13 +19,15 @@ function get_query_safe(key, default_value) {
     return route.query[key] === undefined ? default_value : route.query[key]
 }
 
-const request_params = ref({
-    "kt": route.params["search_content"],
-    "mode": get_query_safe("tagtype", "tag"),
-    'totalPage': 3,
-    'isCache': 1,
-    'groupIndex': 0,
-    'isAiWork': get_query_safe("ignore_ai", false) ? 1 : 0
+const request_params = computed(() => {
+    return {
+        "kt": route.params["search_content"],
+        "mode": get_query_safe("tagtype", "tag"),
+        'totalPage': 3,
+        'isCache': 1,
+        'groupIndex': 0,
+        'isAiWork': get_query_safe("ignore_ai", false) ? 1 : 0
+    }
 })
 
 function refresh_local_data() {
@@ -48,7 +50,8 @@ function refresh_request_data() {
         })
 }
 
-watch(() => request_params, async (old_data, new_data) => {
+watch(request_params, () => {
+    console.log("URL Params updated")
     refresh_request_data()
 })
 

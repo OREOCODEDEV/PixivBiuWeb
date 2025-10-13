@@ -60,7 +60,7 @@ defineExpose({
                                 ref="img_large">
                             </img>
                         </div>
-                        <div class="flex flex-col px-5 py-15 gap-2 max-w-60 break-all">
+                        <div class="flex flex-col px-5 py-15 gap-2 max-w-80 min-w-40 break-all">
                             <span class="font-bold text-2xl">
                                 {{ image_data.title }}
                             </span>

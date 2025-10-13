@@ -4,7 +4,7 @@ import raw_test_data from "../../assets/testcase/result.json"
 // 生成测试数据
 // http://localhost:5173/search/PixivBiu:Dev/all
 
-function generate_dev_data(raw_test_data) {
+function generate_dev_data() {
     console.log("Generate - DevData...")
     let result = raw_test_data
     let generate_image_data_raw = raw_test_data.msg.rst.data[0]
@@ -50,6 +50,10 @@ function generate_dev_data(raw_test_data) {
     console.log(result)
     return { data: result }
 }
+
+defineExpose({
+    generate_dev_data,
+})
 </script>
 
 <template>
