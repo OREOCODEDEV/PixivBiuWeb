@@ -48,11 +48,11 @@ function on_click(value) {
 <template>
     <div class="flex text-sm">
         <!-- 多选控件最外层（底下灰色） -->
-        <div class="flex grow items-center rounded-full bg-gray-300 p-1.5">
+        <div class="flex grow items-center rounded-full bg-gray-300 p-1.5 hover:bg-transparent">
             <!-- 所有按键的最小外层 -->
             <div class="flex grow">
                 <template v-for="(value, name) of props.options">
-                    <span class="mx-auto cursor-pointer p-2" :class="is_selection_activate(value) ? 'active' : ''" @click="on_click(value)">{{ name }}</span>
+                    <span class="mx-auto cursor-pointer rounded-full p-2" :class="is_selection_activate(value) ? 'active' : 'hover:bg-gray-200'" @click="on_click(value)">{{ name }}</span>
                 </template>
             </div>
         </div>

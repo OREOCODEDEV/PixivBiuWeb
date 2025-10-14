@@ -36,6 +36,7 @@ const MaterialFilterBarRef = ref(null);
                     <DownloadIcon></DownloadIcon>
                 </div>
             </div>
+            <!-- <div class="flex grow h-40 bg-black"></div> -->
             <div class="flex grow overflow-y-auto">
                 <router-view />
             </div>
