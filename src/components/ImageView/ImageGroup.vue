@@ -30,11 +30,29 @@ const request_params = computed(() => {
     };
 });
 
+let last_request_params = {};
+
+function is_request_params_changes(new_params) {
+    for (let i of Object.keys(new_params)) {
+        if (new_params[i] != last_request_params[i]) {
+            last_request_params = new_params;
+            return true;
+        }
+    }
+    return false;
+}
+
 function refresh_local_data() {
     display_data.value = response_data.value.data.msg.rst.data;
 }
 
 function refresh_request_data() {
+    if (!is_request_params_changes(request_params.value)) {
+        // 请求参数未发生变动时不再重复请求，直接对本地数据进行重复处理即可
+        refresh_local_data();
+        return;
+    }
+
     if (request_params.value["kt"] == "PixivBiu:Dev") {
         response_data.value = DevData.generate_dev_data();
         refresh_local_data();
@@ -63,7 +81,7 @@ onMounted(() => {
 
 <template>
     <div class="flex grow">
-        <div class="grid grid-cols-4 gap-8 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8" v-if="display_data && display_data.length != 0">
+        <div class="grid grid-cols-4 gap-1 md:grid-cols-5 lg:grid-cols-6 lg:gap-4 xl:grid-cols-7 xl:gap-6 2xl:grid-cols-8 2xl:gap-8" v-if="display_data && display_data.length != 0">
             <template v-for="current_data of display_data">
                 <Image :image_data="current_data" :modal_ref="image_modal"></Image>
             </template>
