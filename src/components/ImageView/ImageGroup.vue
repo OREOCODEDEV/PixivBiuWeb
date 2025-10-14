@@ -62,10 +62,14 @@ onMounted(() => {
 
 <template>
     <div class="flex">
-        <div class="grid grid-cols-4 gap-8 2xl:grid-cols-8 xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-5">
+        <div class="grid grid-cols-4 gap-8 2xl:grid-cols-8 xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-5"
+            v-if="display_data && display_data.length != 0">
             <template v-for="current_data of display_data">
                 <Image :image_data="current_data" :modal_ref="image_modal"></Image>
             </template>
+        </div>
+        <div class="flex flex-row grow" v-else>
+            <span class="mx-auto text-gray-500 text-xl font-bold">无可展示内容</span>
         </div>
     </div>
     <!-- 避免放到Image中导致DOM数量增加 -->
