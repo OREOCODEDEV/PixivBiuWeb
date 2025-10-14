@@ -6,15 +6,22 @@ const props = defineProps(["image_data", "modal_ref"]);
 
 <template>
     <div class="flex flex-col">
-        <div class="relative flex rounded-xl">
-            <!-- mask-alpha mask-b-from-0% mask-b-from-black mask-t-to-25% mask-t-to-transparent -->
+        <div class="relative flex overflow-hidden rounded-xl">
             <div class="flex grow self-stretch">
                 <img class="aspect-square grow rounded-xl object-cover object-top" :src="props.image_data.image_urls.medium.replace('https://i.pximg.net', 'https://i.pixiv.re')" />
             </div>
-            <div class="absolute bottom-0 left-0 right-0 top-0 cursor-pointer hover:bg-white/25" @click="props.modal_ref.show(props.image_data)">
+            <!-- 单独设置一个对图片底部黑色渐变的遮罩层 -->
+            <div class="z-5 absolute bottom-0 left-0 right-0 top-0">
+                <div class="flex h-full w-full flex-row items-end">
+                    <div class="mask-alpha mask-t-from-50% mask-t-from-black mask-b-to-black flex h-7 grow bg-gray-800"></div>
+                </div>
+            </div>
+            <!-- 图片底部的收藏和观看数据 -->
+            <div class="absolute bottom-0 left-0 right-0 top-0 z-10 cursor-pointer hover:bg-white/25" @click="props.modal_ref.show(props.image_data)">
                 <div class="flex h-full w-full flex-row items-end font-bold text-white">
                     <div class="flex grow">
-                        <span class="px-2 py-1">test</span>
+                        <span class="px-2 py-1">{{props.image_data.total_bookmarked}}</span>
+                        <span class="px-2 py-1">{{props.image_data.total_viewed}}</span>
                     </div>
                 </div>
             </div>
