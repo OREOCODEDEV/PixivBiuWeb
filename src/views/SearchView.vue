@@ -24,8 +24,8 @@ const MaterialFilterBarRef = ref(null);
                 <SearchBar></SearchBar>
                 <!-- todo: 修复生命周期问题导致的加载错误 -->
                 <div
-                    class="self-shirk flex cursor-pointer items-center rounded-xl p-4 hover:bg-gray-200"
-                    :class="[MaterialFilterBarRef.show_state ? 'bg-blue-200' : '']"
+                    class="self-shirk flex cursor-pointer items-center rounded-xl p-4 "
+                    :class="[MaterialFilterBarRef.show_state ? 'bg-blue-200 hover:bg-blue-300' : 'hover:bg-gray-200']"
                     @click="MaterialFilterBarRef.show_state = !MaterialFilterBarRef.show_state"
                     v-if="MaterialFilterBarRef && MaterialFilterBarRef.show_state !== undefined"
                 >

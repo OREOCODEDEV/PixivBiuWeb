@@ -71,7 +71,7 @@ defineExpose({
                 <RefreshIcon></RefreshIcon>
                 <span class="ml-2">清除筛选</span>
             </div>
-            <div class="aspect-square cursor-pointer items-center rounded-full p-1.5 hover:bg-gray-300">
+            <div class="aspect-square cursor-pointer items-center rounded-full p-1.5 hover:bg-gray-300" @click="show_state = false">
                 <CloseIcon></CloseIcon>
             </div>
         </div>
