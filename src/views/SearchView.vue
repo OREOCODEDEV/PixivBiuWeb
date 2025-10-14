@@ -9,10 +9,6 @@ import FilterFillIcon from "@/assets/FilterFillIcon.vue";
 import { ref } from "vue";
 
 const MaterialFilterBarRef = ref(null);
-
-setTimeout(() => {
-    console.log(MaterialFilterBarRef);
-}, 2000);
 </script>
 
 <template>

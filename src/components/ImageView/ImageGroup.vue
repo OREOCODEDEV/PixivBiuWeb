@@ -1,75 +1,75 @@
 <script setup>
-import { nextTick, defineComponent, ref, watch, onMounted, computed } from 'vue';
-import { useRoute } from 'vue-router'
+import { nextTick, defineComponent, ref, watch, onMounted, computed } from "vue";
+import { useRoute } from "vue-router";
 
-import axios from 'axios';
+import axios from "axios";
 
-import Image from './Image.vue';
-import ImageModal from './ImageModal.vue';
-import DevData from './DevData.vue';
+import Image from "./Image.vue";
+import ImageModal from "./ImageModal.vue";
+import DevData from "./DevData.vue";
 
-const route = useRoute()
+const route = useRoute();
 
-const response_data = ref(null)
-const display_data = ref(null)
-const image_modal = ref(null)
+const response_data = ref(null);
+const display_data = ref(null);
+const image_modal = ref(null);
 
 function get_query_safe(key, default_value) {
     // 从查询参数中取值，无则返回默认参数的值
-    return route.query[key] === undefined ? default_value : route.query[key]
+    return route.query[key] === undefined ? default_value : route.query[key];
 }
 
 const request_params = computed(() => {
     return {
-        "kt": route.params["search_content"],
-        "mode": get_query_safe("tagtype", "tag"),
-        'totalPage': 3,
-        'isCache': 1,
-        'groupIndex': 0,
-        'isAiWork': get_query_safe("ignore_ai", false) ? 1 : 0
-    }
-})
+        kt: route.params["search_content"],
+        mode: get_query_safe("tagtype", "tag"),
+        totalPage: 3,
+        isCache: 1,
+        groupIndex: 0,
+        isAiWork: get_query_safe("ignore_ai", false) ? 1 : 0,
+    };
+});
 
 function refresh_local_data() {
-    display_data.value = response_data.value.data.msg.rst.data
+    display_data.value = response_data.value.data.msg.rst.data;
 }
 
 function refresh_request_data() {
     if (request_params.value["kt"] == "PixivBiu:Dev") {
-        response_data.value = DevData.generate_dev_data()
-        refresh_local_data()
-        return
+        response_data.value = DevData.generate_dev_data();
+        refresh_local_data();
+        return;
     }
 
-    axios.get("/api/biu/search/works/", {
-        params: request_params.value
-    })
-        .then((response) => {
-            response_data.value = response
-            refresh_local_data()
+    axios
+        .get("/api/biu/search/works/", {
+            params: request_params.value,
         })
+        .then((response) => {
+            response_data.value = response;
+            refresh_local_data();
+        });
 }
 
 watch(request_params, () => {
-    console.log("URL Params updated")
-    refresh_request_data()
-})
+    // console.log("URL Params updated:", request_params);
+    refresh_request_data();
+});
 
 onMounted(() => {
-    refresh_request_data()
-})
+    refresh_request_data();
+});
 </script>
 
 <template>
-    <div class="flex">
-        <div class="grid grid-cols-4 gap-8 2xl:grid-cols-8 xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-5"
-            v-if="display_data && display_data.length != 0">
+    <div class="flex grow">
+        <div class="grid grid-cols-4 gap-8 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8" v-if="display_data && display_data.length != 0">
             <template v-for="current_data of display_data">
                 <Image :image_data="current_data" :modal_ref="image_modal"></Image>
             </template>
         </div>
-        <div class="flex flex-row grow" v-else>
-            <span class="mx-auto text-gray-500 text-xl font-bold">无可展示内容</span>
+        <div class="flex grow flex-row" v-else>
+            <span class="mx-auto text-xl font-bold text-gray-500">无可展示内容</span>
         </div>
     </div>
     <!-- 避免放到Image中导致DOM数量增加 -->
