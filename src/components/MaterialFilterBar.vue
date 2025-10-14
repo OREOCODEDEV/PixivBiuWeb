@@ -1,6 +1,8 @@
 <script setup>
 import FilterIcon from "@/assets/FilterIcon.vue";
 import SelectFromMulti from "./General/SelectFromMulti.vue";
+import CloseIcon from "@/assets/CloseIcon.vue";
+import RefreshIcon from "@/assets/RefreshIcon.vue";
 
 import { ref } from "vue";
 
@@ -63,13 +65,22 @@ defineExpose({
 </script>
 
 <template>
-    <div class="flex flex-col space-y-3 bg-gray-50 p-6 text-base font-bold text-gray-600 text-nowrap" v-if="show_state">
+    <div class="flex flex-col space-y-6 text-nowrap bg-gray-50 p-6 text-base font-bold text-gray-600" v-if="show_state">
+        <div class="flex flex-row items-center justify-end space-x-4">
+            <div class="flex flex-row">
+                <RefreshIcon></RefreshIcon>
+                <span class="ml-2">清除筛选</span>
+            </div>
+            <div class="aspect-square cursor-pointer items-center rounded-full p-1.5 hover:bg-gray-300">
+                <CloseIcon></CloseIcon>
+            </div>
+        </div>
         <div class="flex flex-row items-center">
             <FilterIcon></FilterIcon>
-            <span class="ml-6">结果筛选</span>
+            <span class="ml-2">结果筛选</span>
         </div>
         <template v-for="item of options_data">
-            <div class="flex flex-col space-y-2">
+            <div class="flex flex-col space-y-3">
                 <span>
                     {{ item.name }}
                 </span>
