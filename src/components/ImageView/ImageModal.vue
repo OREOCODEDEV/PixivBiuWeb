@@ -61,11 +61,11 @@ defineExpose({
                             </img>
                         </div>
                         <div class="flex flex-col px-5 py-15 gap-2 max-w-80 min-w-40 break-all">
-                            <span class="font-bold text-2xl">
+                            <span class="font-bold text-2xl select-all">
                                 {{ image_data.title }}
                             </span>
 
-                            <span class="font-bold text-sm text-gray-500">
+                            <span class="font-bold text-sm text-gray-500 select-all">
                                 {{ image_data.created_time }}
                             </span>
 
@@ -75,7 +75,7 @@ defineExpose({
                             </div>
                             <div v-else class="h-5"></div>
 
-                            <span class="text-wrap">
+                            <span class="text-wrap select-all">
                                 {{ image_data.caption }}
                             </span>
 

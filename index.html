@@ -1,14 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/src/assets/tailwind.css" rel="stylesheet">
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app" class="flex flex-col"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="/src/assets/tailwind.css" rel="stylesheet" />
+        <title>Vite App</title>
+    </head>
+    <style>
+        @font-face {
+            font-family: "AlibabaPuHuiTi";
+            src: url("@/assets/fonts/AlibabaPuHuiTi-3-55-Regular.ttf") format("ttf");
+        }
+
+        .custom-font {
+            font-family: "AlibabaPuHuiTi";
+        }
+    </style>
+    <body>
+        <div id="app" class="custom-font flex h-screen w-screen select-none text-sm"></div>
+        <script type="module" src="/src/main.js"></script>
+    </body>
 </html>
