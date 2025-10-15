@@ -7,9 +7,14 @@ import RefreshIcon from "@/assets/RefreshIcon.vue";
 import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-const show_state = ref(false);
 const route = useRoute();
 const router = useRouter();
+
+const has_query = computed(() => {
+    return Object.keys(route.query).length != 0;
+});
+
+const show_state = ref(has_query.value);
 
 // 时间筛选选项生成
 const now_days = new Date();
@@ -60,10 +65,6 @@ const options_data = [
         key: "imgcount",
     },
 ];
-
-const has_query = computed(() => {
-    return Object.keys(route.query).length != 0;
-});
 
 defineExpose({
     show: () => {
