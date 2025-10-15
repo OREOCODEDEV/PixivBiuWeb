@@ -1,6 +1,6 @@
 <script setup>
 import FilterIcon from "@/assets/FilterIcon.vue";
-import SelectFromMulti from "./General/SelectFromMulti.vue";
+import SelectQuery from "./General/SelectQuery.vue";
 import CloseIcon from "@/assets/CloseIcon.vue";
 import RefreshIcon from "@/assets/RefreshIcon.vue";
 
@@ -97,7 +97,7 @@ defineExpose({
                 <span>
                     {{ item.name }}
                 </span>
-                <SelectFromMulti :options="item.option" :option_key="item.key"></SelectFromMulti>
+                <SelectQuery :options="item.option" :option_key="item.key"></SelectQuery>
             </div>
         </template>
     </div>
