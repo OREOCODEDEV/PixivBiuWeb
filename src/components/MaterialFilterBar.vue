@@ -4,9 +4,12 @@ import SelectFromMulti from "./General/SelectFromMulti.vue";
 import CloseIcon from "@/assets/CloseIcon.vue";
 import RefreshIcon from "@/assets/RefreshIcon.vue";
 
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const show_state = ref(false);
+const route = useRoute();
+const router = useRouter();
 
 // 时间筛选选项生成
 const now_days = new Date();
@@ -58,6 +61,10 @@ const options_data = [
     },
 ];
 
+const has_query = computed(() => {
+    return Object.keys(route.query).length != 0;
+});
+
 defineExpose({
     show: () => {
         show_state.value = true;
@@ -72,9 +79,9 @@ defineExpose({
 <template>
     <div class="flex flex-col space-y-6 text-nowrap bg-gray-50 p-6 text-base font-bold text-gray-600" v-if="show_state">
         <div class="flex flex-row items-center justify-end space-x-4">
-            <div class="flex flex-row">
+            <div class="flex flex-row rounded-full p-2" :class="[has_query ? 'cursor-pointer fill-blue-500 text-blue-500 hover:bg-blue-100' : 'fill-gray-300 text-gray-300']" @click="router.replace({ query: {} })">
                 <RefreshIcon></RefreshIcon>
-                <span class="ml-2">清除筛选</span>
+                <span class="ml-1 pr-1">清除筛选</span>
             </div>
             <div class="aspect-square cursor-pointer items-center rounded-full p-1.5 hover:bg-gray-300" @click="show_state = false">
                 <CloseIcon></CloseIcon>
