@@ -31,7 +31,7 @@ function ProcessData(import_data, route) {
         favourite: { key: "total_bookmarked", proc: (data) => data["total_bookmarked"] },
         views: { key: "total_viewed", proc: (data) => data["total_viewed"] },
         ratio: { key: "", proc: (data) => data["total_bookmarked"] / data["total_viewed"] },
-        date: { key: "date", proc: (data) => filter_type_map.date.proc(data["created_time"]) },
+        date: { key: "created_time", proc: (data) => filter_type_map.date.proc(data["created_time"]) },
     };
 
     let filter_options = {}; // {key:{max:int, min:int}}
