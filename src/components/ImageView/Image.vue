@@ -18,8 +18,11 @@ const props = defineProps(["image_data", "modal_ref"]);
             </div>
             <!-- 图片底部的收藏和观看数据 -->
             <div class="absolute bottom-0 left-0 right-0 top-0 z-10 cursor-pointer hover:bg-white/25" @click="props.modal_ref.show(props.image_data)">
-                <div class="flex h-full w-full flex-row items-end font-bold text-white">
-                    <div class="flex grow">
+                <div class="flex h-full w-full flex-col align-bottom font-bold text-white">
+                    <div class="flex grow flex-row justify-end self-stretch">
+                        <span class="m-2 flex h-min rounded-md bg-gray-500/75 p-0.5" v-if="props.image_data.all.meta_pages.length != 0"> {{ props.image_data.all.meta_pages.length + 1 }}+ </span>
+                    </div>
+                    <div class="flex">
                         <span class="px-2 py-1">{{ props.image_data.total_bookmarked }}</span>
                         <span class="px-2 py-1">{{ props.image_data.total_viewed }}</span>
                     </div>
