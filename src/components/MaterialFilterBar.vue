@@ -23,7 +23,7 @@ half_year_before_days.setMonth(now_days.getMonth() - 6);
 const options_data = [
     {
         name: "排序方式",
-        option: { 按收藏: "favourite", 按浏览: "views", 从早至晚: "date", 从晚至早: "rdate" },
+        option: { 收藏: "favourite", 浏览: "views", 最新: "date", 收藏比: "ratio" },
         key: "sorttype",
     },
     {
@@ -45,11 +45,11 @@ const options_data = [
         name: "发表时间",
         option: {
             所有: "all",
-            半年内: half_year_before_days.toLocaleDateString() + ":",
-            一月内: month_before_days.toLocaleDateString() + ":",
-            一周内: week_before_days.toLocaleDateString() + ":",
+            半年内: half_year_before_days.toLocaleDateString().replaceAll("/", "-") + ":",
+            一月内: month_before_days.toLocaleDateString().replaceAll("/", "-") + ":",
+            一周内: week_before_days.toLocaleDateString().replaceAll("/", "-") + ":",
         },
-        key: "posttime",
+        key: "date",
     },
 ];
 

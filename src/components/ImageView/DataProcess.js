@@ -4,43 +4,67 @@ function get_query_safe(route, key, default_value) {
 }
 
 function ProcessData(import_data, route) {
-    let count = 0;
+    const query_sort_type = get_query_safe(route, "sorttype", "favourite");
 
-    const sort_type_map = {
-        favourite: "total_bookmarked",
-        views: "total_viewed",
-        date: "created_time",
-        rdate: "created_time",
+    const filter_type_map = {
+        // 对筛选项进行字符串键映射及定义格式化方法
+        favourite: { key: "total_bookmarked", proc: Number },
+        views: { key: "total_viewed", proc: Number },
+        date: {
+            key: "created_time",
+            proc: (str) => {
+                // 把日期规范为YYYYMMDD字符串，后面直接使用字符串比较
+                let date_split = str.split(" ")[0].split("-");
+                if (date_split[1].length == 1) {
+                    date_split[1] = "0" + date_split[1];
+                }
+                if (date_split[2].length == 1) {
+                    date_split[2] = "0" + date_split[2];
+                }
+                return date_split.join("");
+            },
+        },
     };
 
-    let filter_options = {};
+    const sort_type_map = {
+        // 对排序项进行字符串键映射及定义格式化方法
+        favourite: { key: "total_bookmarked", proc: (data) => data["total_bookmarked"] },
+        views: { key: "total_viewed", proc: (data) => data["total_viewed"] },
+        ratio: { key: "", proc: (data) => data["total_bookmarked"] / data["total_viewed"] },
+        date: { key: "date", proc: (data) => filter_type_map.date.proc(data["created_time"]) },
+    };
 
-    for (let current_key of ["favourite", "views"]) {
+    let filter_options = {}; // {key:{max:int, min:int}}
+
+    // 拆分查询参数中的数据
+    for (let current_key of Object.keys(filter_type_map)) {
         if (!route.query.hasOwnProperty(current_key)) {
             filter_options[current_key] = { min: null, max: null };
             continue;
         }
         const range_str = route.query[current_key];
         if (!range_str.includes(":")) {
-            filter_options[current_key] = { min: Number(range_str), max: null };
+            // 没有冒号时按照最小值取
+            filter_options[current_key] = { min: filter_type_map[current_key].proc(range_str), max: null };
             continue;
         }
         const range_split = range_str.split(":");
-        filter_options[current_key] = { min: Number(range_split[0]), max: range_split[1] ? Number(range_split[1]) : null };
+        filter_options[current_key] = { min: filter_type_map[current_key].proc(range_split[0]), max: range_split[1] ? filter_type_map[current_key].proc(range_split[1]) : null };
     }
 
     let map_dict = new Map();
 
-    // 一边按照条件筛选一边构建一个{筛选项: 数据}的dict
+    // 一边按照条件筛选一边构建一个{筛选值: 数据}的dict
+    // sort为排序 filter为过滤
     for (const key in import_data) {
         const current_data = import_data[key];
         let breakflags = false;
-        for (let filter_t of ["favourite", "views"]) {
-            if (filter_options[filter_t].max !== null && current_data[sort_type_map[filter_t]] > filter_options[filter_t].max) {
+        for (let filter_t of Object.keys(filter_type_map)) {
+            if (filter_options[filter_t].max !== null && filter_type_map[filter_t].proc(current_data[filter_type_map[filter_t].key]) > filter_options[filter_t].max) {
                 breakflags = true;
                 break;
             }
-            if (filter_options[filter_t].min !== null && current_data[sort_type_map[filter_t]] < filter_options[filter_t].min) {
+            if (filter_options[filter_t].min !== null && filter_type_map[filter_t].proc(current_data[filter_type_map[filter_t].key]) < filter_options[filter_t].min) {
                 breakflags = true;
                 break;
             }
@@ -49,15 +73,10 @@ function ProcessData(import_data, route) {
             // 不符合收藏或观看数量筛选条件
             continue;
         }
-        const query_filter_type = get_query_safe(route, "sorttype", "favourite");
-        const num = current_data[sort_type_map[query_filter_type]];
+        let num = sort_type_map[query_sort_type].proc(current_data);
         if (!map_dict.has(num)) {
             map_dict.set(num, []);
         }
-        // if (map_dict.get(num).length) {
-        //     debugger;
-        // }
-        count += 1;
         map_dict.get(num).push(key);
     }
 
@@ -70,6 +89,16 @@ function ProcessData(import_data, route) {
         }
     }
 
+    for (let i of result_data) {
+        let dbg_str = `${query_sort_type}: ${i[sort_type_map[query_sort_type].key]}; `;
+        for (let j of Object.keys(filter_options)) {
+            if (j.min === null && j.max === null) {
+                continue;
+            }
+            dbg_str += `${j}: ${i[filter_type_map[j].key]}; `;
+        }
+        console.log(dbg_str);
+    }
     // console.log(result_data);
 
     return result_data;
