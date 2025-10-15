@@ -6,8 +6,8 @@ function get_query_safe(route, key, default_value) {
 function ProcessData(import_data, route) {
     const query_sort_type = get_query_safe(route, "sorttype", "favourite");
 
-    const filter_type_map = {
-        // 对筛选项进行字符串键映射及定义格式化方法
+    const range_filter_type_map = {
+        // 对区间类筛选项进行字符串键映射及定义格式化方法
         favourite: { key: "total_bookmarked", proc: Number },
         views: { key: "total_viewed", proc: Number },
         date: {
@@ -24,6 +24,12 @@ function ProcessData(import_data, route) {
                 return date_split.join("");
             },
         },
+        imgcount: {
+            key: (data) => {
+                return data.all.meta_pages.length + 1;
+            },
+            proc: Number,
+        },
     };
 
     const sort_type_map = {
@@ -31,13 +37,13 @@ function ProcessData(import_data, route) {
         favourite: { key: "total_bookmarked", proc: (data) => data["total_bookmarked"] },
         views: { key: "total_viewed", proc: (data) => data["total_viewed"] },
         ratio: { key: "", proc: (data) => data["total_bookmarked"] / data["total_viewed"] },
-        date: { key: "created_time", proc: (data) => filter_type_map.date.proc(data["created_time"]) },
+        date: { key: "created_time", proc: (data) => range_filter_type_map.date.proc(data["created_time"]) },
     };
 
     let filter_options = {}; // {key:{max:int, min:int}}
 
     // 拆分查询参数中的数据
-    for (let current_key of Object.keys(filter_type_map)) {
+    for (let current_key of Object.keys(range_filter_type_map)) {
         if (!route.query.hasOwnProperty(current_key)) {
             filter_options[current_key] = { min: null, max: null };
             continue;
@@ -45,11 +51,11 @@ function ProcessData(import_data, route) {
         const range_str = route.query[current_key];
         if (!range_str.includes(":")) {
             // 没有冒号时按照最小值取
-            filter_options[current_key] = { min: filter_type_map[current_key].proc(range_str), max: null };
+            filter_options[current_key] = { min: range_filter_type_map[current_key].proc(range_str), max: null };
             continue;
         }
         const range_split = range_str.split(":");
-        filter_options[current_key] = { min: filter_type_map[current_key].proc(range_split[0]), max: range_split[1] ? filter_type_map[current_key].proc(range_split[1]) : null };
+        filter_options[current_key] = { min: range_filter_type_map[current_key].proc(range_split[0]), max: range_split[1] ? range_filter_type_map[current_key].proc(range_split[1]) : null };
     }
 
     let map_dict = new Map();
@@ -59,12 +65,20 @@ function ProcessData(import_data, route) {
     for (const key in import_data) {
         const current_data = import_data[key];
         let breakflags = false;
-        for (let filter_t of Object.keys(filter_type_map)) {
-            if (filter_options[filter_t].max !== null && filter_type_map[filter_t].proc(current_data[filter_type_map[filter_t].key]) > filter_options[filter_t].max) {
+        for (let filter_t of Object.keys(range_filter_type_map)) {
+            let source_range = 0;
+            if (typeof range_filter_type_map[filter_t].key === "string") {
+                source_range = current_data[range_filter_type_map[filter_t].key];
+            }
+            if (typeof range_filter_type_map[filter_t].key === "function") {
+                source_range = range_filter_type_map[filter_t].key(current_data);
+            }
+
+            if (filter_options[filter_t].max !== null && range_filter_type_map[filter_t].proc(source_range) > filter_options[filter_t].max) {
                 breakflags = true;
                 break;
             }
-            if (filter_options[filter_t].min !== null && filter_type_map[filter_t].proc(current_data[filter_type_map[filter_t].key]) < filter_options[filter_t].min) {
+            if (filter_options[filter_t].min !== null && range_filter_type_map[filter_t].proc(source_range) < filter_options[filter_t].min) {
                 breakflags = true;
                 break;
             }
@@ -89,17 +103,18 @@ function ProcessData(import_data, route) {
         }
     }
 
-    for (let i of result_data) {
-        let dbg_str = `${query_sort_type}: ${i[sort_type_map[query_sort_type].key]}; `;
-        for (let j of Object.keys(filter_options)) {
-            if (j.min === null && j.max === null) {
-                continue;
-            }
-            dbg_str += `${j}: ${i[filter_type_map[j].key]}; `;
-        }
-        console.log(dbg_str);
-    }
+    // for (let i of result_data) {
+    //     let dbg_str = `${query_sort_type}: ${i[sort_type_map[query_sort_type].key]}; `;
+    //     for (let j of Object.keys(filter_options)) {
+    //         if (j.min === null && j.max === null) {
+    //             continue;
+    //         }
+    //         dbg_str += `${j}: ${i[range_filter_type_map[j].key]}; `;
+    //     }
+    //     console.log(dbg_str);
+    // }
     // console.log(result_data);
+    console.log(`Got ${result_data.length} results after filter(s)`);
 
     return result_data;
 }

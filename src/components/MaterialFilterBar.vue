@@ -51,6 +51,11 @@ const options_data = [
         },
         key: "date",
     },
+    {
+        name: "图片数量",
+        option: { 混合: "mix", 仅单图: ":1", 仅多图: "2:" },
+        key: "imgcount",
+    },
 ];
 
 defineExpose({
