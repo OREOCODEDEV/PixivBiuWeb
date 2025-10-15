@@ -8,9 +8,12 @@ import Image from "./Image.vue";
 import ImageModal from "./ImageModal.vue";
 import DevData from "./DevData.vue";
 
+import { ProcessData } from "./DataProcess";
+
 const route = useRoute();
 
 const response_data = ref(null);
+let response_dict_data = {};
 const display_data = ref(null);
 const image_modal = ref(null);
 
@@ -26,7 +29,7 @@ const request_params = computed(() => {
         totalPage: 3,
         isCache: 1,
         groupIndex: 0,
-        isAiWork: get_query_safe("ignore_ai", false) ? 1 : 0,
+        isAiWork: get_query_safe("ignore_ai", false) ? 0 : 1,
     };
 });
 
@@ -43,7 +46,7 @@ function is_request_params_changes(new_params) {
 }
 
 function refresh_local_data() {
-    display_data.value = response_data.value.data.msg.rst.data;
+    display_data.value = ProcessData(response_dict_data, route);
 }
 
 function refresh_request_data() {
@@ -65,6 +68,11 @@ function refresh_request_data() {
         })
         .then((response) => {
             response_data.value = response;
+            response_dict_data = {};
+            for (let i of response.data.msg.rst.data) {
+                response_dict_data[i.id] = i;
+            }
+            // console.log(response_dict_data)
             refresh_local_data();
         });
 }
