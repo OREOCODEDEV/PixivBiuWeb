@@ -33,7 +33,12 @@ import SelectFromMulti from "@/components/General/SelectFromMulti.vue";
     <div class="max-w-130 w-130 flex flex-col py-4">
         <span class="title">大图分辨率</span>
         <span class="description">设置在查看大图时是否尝试加载更高分辨率版本，如设置不加载则与预览分辨率保持一致以最大程度减少缓冲</span>
-        <SelectFromMulti :options="{ 加载: 'load', 不加载: 'keep' }" current_value="load" />
+        <SelectFromMulti :options="{ 不加载: 'keep', 加载: 'load' }" current_value="load" />
+    </div>
+    <div class="max-w-130 w-130 flex flex-col py-4">
+        <span class="title">保留筛选项</span>
+        <span class="description">搜索新内容时，是否仍然保留筛选项并对新结果直接进行筛选</span>
+        <SelectFromMulti :options="{ 不保留: 'drop', 保留: 'keep' }" current_value="drop" />
     </div>
     <div class="max-w-130 w-130 flex flex-col py-4">
         <span class="title">搜索页数</span>

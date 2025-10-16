@@ -3,7 +3,7 @@ import ImageGroup from "@/components/ImageView/ImageGroup.vue";
 </script>
 
 <template>
-    <div class="flex pt-4 grow">
+    <div class="flex grow">
         <ImageGroup></ImageGroup>
     </div>
 </template>
