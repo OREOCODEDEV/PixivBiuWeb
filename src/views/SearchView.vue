@@ -22,14 +22,14 @@ if (route.name == "search") {
 <template>
     <MaterialTypeBar></MaterialTypeBar>
     <MaterialFilterBar ref="MaterialFilterBarRef"></MaterialFilterBar>
-    <div class="flex grow self-stretch">
-        <div class="max-w-18/20 mx-auto flex max-h-screen grow flex-col">
-            <div class="max-h-22 flex grow space-x-4 py-4">
+    <div class="flex grow flex-col self-stretch">
+        <div class="max-w-18/20 w-18/20 mx-auto flex max-h-screen flex-col">
+            <div class="max-h-22 flex flex-1 space-x-4 py-4">
                 <div class="flex cursor-pointer items-center self-stretch rounded-xl px-4 text-3xl font-bold hover:bg-gray-200">
                     <span class="text-pink-500">Pixiv</span>
                     <span class="text-orange-500">Biu</span>
                 </div>
-                <SearchBar></SearchBar>
+                <SearchBar class="flex flex-1"></SearchBar>
                 <!-- todo: 修复生命周期问题导致的加载错误 -->
                 <div
                     class="self-shirk flex cursor-pointer items-center rounded-xl p-4"
@@ -44,8 +44,9 @@ if (route.name == "search") {
                     <DownloadIcon></DownloadIcon>
                 </div>
             </div>
-            <!-- <div class="flex grow h-40 bg-black"></div> -->
-            <div class="flex grow overflow-y-auto">
+        </div>
+        <div class="flex flex-1 overflow-y-auto">
+            <div class="max-w-18/20 mx-auto flex max-h-screen grow flex-col">
                 <router-view />
             </div>
         </div>
