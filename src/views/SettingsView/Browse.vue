@@ -21,6 +21,21 @@ import SelectFromMulti from "@/components/General/SelectFromMulti.vue";
 
 <template>
     <div class="max-w-130 w-130 flex flex-col py-4">
+        <span class="title">预览大小</span>
+        <span class="description">设置在搜索预览时展示的图片尺寸大小，设置为小可同时预览更多图片</span>
+        <SelectFromMulti :options="{ 小: 'small', 中: 'medium', 大: 'large' }" current_value="medium" />
+    </div>
+    <div class="max-w-130 w-130 flex flex-col py-4">
+        <span class="title">预览分辨率</span>
+        <span class="description">设置在搜索预览时展示的图片分辨率，如果无对应版本则按照不大于选项的最高分辨率版本显示</span>
+        <SelectFromMulti :options="{ 小: 'small', 中: 'medium', 大: 'large', 原图: 'origin' }" current_value="medium" />
+    </div>
+    <div class="max-w-130 w-130 flex flex-col py-4">
+        <span class="title">大图分辨率</span>
+        <span class="description">设置在查看大图时是否尝试加载更高分辨率版本，如设置不加载则与预览分辨率保持一致以最大程度减少缓冲</span>
+        <SelectFromMulti :options="{ 加载: 'load', 不加载: 'keep' }" current_value="load" />
+    </div>
+    <div class="max-w-130 w-130 flex flex-col py-4">
         <span class="title">搜索页数</span>
         <span class="description">设置搜索时从源站抓取的页面数量，设置越大则获取的图片数量越多，数据排名越客观，但容易引起风控及系统卡顿。建议设置合适数值。</span>
         <div class="flex items-stretch rounded-xl bg-blue-50 p-6">

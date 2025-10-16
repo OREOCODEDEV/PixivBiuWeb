@@ -10,8 +10,8 @@ const route = useRoute();
 const router = useRouter();
 
 const router_type = [
-    { name: "网络与代理", value: "settings-network", icon: NetworkIcon, icon_fill: NetworkIcon },
     { name: "搜索与浏览", value: "settings-browse", icon: SearchIcon, icon_fill: SearchIcon },
+    { name: "网络与代理", value: "settings-network", icon: NetworkIcon, icon_fill: NetworkIcon },
 ];
 
 const is_activated_route = computed(() => {
@@ -26,13 +26,14 @@ if (route.name == "settings") {
 </script>
 
 <template>
-    <div class="flex flex-col">
+    <div class="flex max-h-screen grow flex-col self-stretch">
         <div class="flex cursor-pointer p-4 text-2xl font-bold">
             <span class="text-pink-500">PixivBiu</span>
             <span class="ml-2 font-normal text-orange-500">设置</span>
         </div>
-        <div class="flex grow flex-row self-stretch">
-            <div class="rounded-tr-4xl flex grow flex-col bg-blue-50 py-3">
+        <!-- todo: 又一个样式怪问题，设置h-full或者flex-1会导致内容的overflow-scroll出问题，先用计算后面再修 -->
+        <div class="flex max-h-[calc(100vh-64px)] flex-1 flex-row">
+            <div class="rounded-tr-4xl flex flex-col self-stretch bg-blue-50 py-3">
                 <template v-for="current_type of router_type">
                     <RouterLink
                         replace
@@ -46,12 +47,16 @@ if (route.name == "settings") {
                     </RouterLink>
                 </template>
             </div>
-            <div class="ml-20 flex flex-col p-4">
+            <div class="ml-20 flex flex-1 flex-col px-4 pt-4">
                 <div class="flex cursor-pointer flex-row items-center space-x-2 pb-4 text-lg" @click="router.go(-1)">
                     <BackIcon></BackIcon>
                     <span>返回</span>
                 </div>
-                <router-view />
+                <div class="h-full min-h-0 overflow-y-auto">
+                    <div class="flex flex-1 flex-col">
+                        <router-view />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
