@@ -8,6 +8,7 @@ import MultiImageIcon from "@/assets/MultiImageIcon.vue";
 import InBoxFilterIcon from "@/assets/InBoxFilterIcon.vue";
 import ImageFillIcon from "@/assets/ImageFillIcon.vue";
 import MangaFillIcon from "@/assets/MangaFillIcon.vue";
+import SettingsIcon from "@/assets/SettingsIcon.vue";
 
 import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
@@ -20,6 +21,7 @@ const router_type = [
     { name: "漫画", value: "search-manga", icon: MangaIcon, icon_fill: MangaFillIcon },
     { name: "动图", value: "search-dynamic", icon: MultiImageIcon, icon_fill: ImageFillIcon },
     { name: "用户", value: "search-users", icon: PersonIcon, icon_fill: ImageFillIcon },
+    { name: "设置", value: "settings", icon: SettingsIcon, icon_fill: SettingsIcon },
 ];
 
 const is_activated_route = computed(() => {

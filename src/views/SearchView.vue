@@ -7,8 +7,16 @@ import FilterIcon from "@/assets/FilterIcon.vue";
 import FilterFillIcon from "@/assets/FilterFillIcon.vue";
 
 import { ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const MaterialFilterBarRef = ref(null);
+
+const route = useRoute();
+const router = useRouter();
+
+if (route.name == "search") {
+    router.replace({ name: "search-all", params: route.params });
+}
 </script>
 
 <template>
@@ -24,7 +32,7 @@ const MaterialFilterBarRef = ref(null);
                 <SearchBar></SearchBar>
                 <!-- todo: 修复生命周期问题导致的加载错误 -->
                 <div
-                    class="self-shirk flex cursor-pointer items-center rounded-xl p-4 "
+                    class="self-shirk flex cursor-pointer items-center rounded-xl p-4"
                     :class="[MaterialFilterBarRef.show_state ? 'bg-blue-200 hover:bg-blue-300' : 'hover:bg-gray-200']"
                     @click="MaterialFilterBarRef.show_state = !MaterialFilterBarRef.show_state"
                     v-if="MaterialFilterBarRef && MaterialFilterBarRef.show_state !== undefined"
