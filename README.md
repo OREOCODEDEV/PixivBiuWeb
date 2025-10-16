@@ -34,4 +34,5 @@ npm run dev
 
 # 预览
 <img width="1920" height="953" alt="image" src="https://github.com/user-attachments/assets/ab3dac61-b9c5-41d3-b74e-5f02d7b59fed" />
+<img width="1920" height="953" alt="image" src="https://github.com/user-attachments/assets/ab54f4aa-5764-452a-82a1-8c766a4261d8" />
 
