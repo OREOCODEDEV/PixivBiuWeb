@@ -1,5 +1,6 @@
 <script setup>
 const storage = localStorage;
+import SelectFromMulti from "@/components/General/SelectFromMulti.vue";
 </script>
 
 <style>
@@ -26,4 +27,14 @@ const storage = localStorage;
             <input type="text" :value="storage.getItem('settings_proxy_server') ? storage.getItem('settings_proxy_server') : '5'" class="h-full appearance-none focus:outline-none" />
         </div>
     </div>
+    <div class="max-w-130 w-130 flex flex-col py-4">
+        <span class="title">R18筛选模式</span>
+        <span class="description">设置筛选R18标签时是否重新请求图片集以获取更多图片</span>
+        <SelectFromMulti :options="{ 不请求: 'frontend', 请求: 'backend' }" current_value="frontend" />
+    </div>
+    <!-- <div class="max-w-130 w-130 flex flex-col py-4">
+        <span class="title">R18筛选模式</span>
+        <span class="description">设置筛选R18标签时是否重新请求图片集以获取更多图片</span>
+        <SelectFromMulti :options="{ 不请求: 'frontend', 请求: 'backend' }" current_value="frontend" />
+    </div> -->
 </template>
