@@ -7,6 +7,7 @@ import axios from "axios";
 import Image from "./Image.vue";
 import ImageModal from "./ImageModal.vue";
 import DevData from "./DevData.vue";
+import MaterialImageTypeBar from "../MaterialImageTypeBar.vue";
 
 import { ProcessData } from "./DataProcess";
 
@@ -89,16 +90,23 @@ onMounted(() => {
 
 <template>
     <div class="relative flex grow flex-col">
-        <div class="flex h-60 space-x-6 divide-white" v-if="display_data && display_data.length != 0">
+        <div class="mb-4 flex h-60 space-x-6 divide-white" v-if="display_data && display_data.length != 0">
             <div class="flex w-1/3 flex-1 flex-col space-y-1 rounded-xl bg-gray-100 p-10">
                 <span class="text-4xl font-extrabold"># {{ response_data.msg.args.fun.kt }}</span>
                 <span class="text-gray-500">正在搜索</span>
                 <span class="">共 {{ Object.keys(response_dict_data).length }} 张，筛选后展示 {{ display_data.length }} 张</span>
-                <span v-if="Object.keys(route.query).length" class="text-blue-500 font-bold">当前有 {{ Object.keys(route.query).length }} 项生效的筛选</span>
+                <span v-if="Object.keys(route.query).length" class="font-bold text-blue-500">当前有 {{ Object.keys(route.query).length }} 项生效的筛选</span>
             </div>
             <img class="w-2/3 rounded-xl object-cover" :src="display_data[0].image_urls.medium.replace('https://i.pximg.net', 'https://i.pixiv.re')" />
         </div>
-        <div class="sticky top-0 z-20 my-4 flex h-20 bg-gray-500"></div>
+        <div class="sticky top-0 z-20 flex bg-white">
+            <!-- <div class="mb-4 flex h-20 grow rounded-full bg-gray-100">
+                <div class="flex grow rounded-full justify-center">
+
+                </div>
+            </div> -->
+            <MaterialImageTypeBar></MaterialImageTypeBar>
+        </div>
 
         <div class="grid grid-cols-4 gap-1 md:grid-cols-5 lg:grid-cols-6 lg:gap-4 xl:grid-cols-7 xl:gap-6 2xl:grid-cols-8 2xl:gap-8" v-if="display_data && display_data.length != 0">
             <template v-for="current_data of display_data">

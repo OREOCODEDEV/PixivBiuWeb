@@ -66,6 +66,11 @@ const router = createRouter({
                     component: () => import("../views/SettingsView/NetWork.vue"),
                 },
                 {
+                    path: "filter",
+                    name: "settings-filter",
+                    component: () => import("../views/SettingsView/Filter.vue"),
+                },
+                {
                     path: "browse",
                     name: "settings-browse",
                     component: () => import("../views/SettingsView/Browse.vue"),

@@ -2,6 +2,8 @@
 import NetworkIcon from "@/assets/NetworkIcon.vue";
 import SearchIcon from "@/assets/SearchIcon.vue";
 import BackIcon from "@/assets/BackIcon.vue";
+import FilterIcon from "@/assets/FilterIcon.vue";
+import FilterFillIcon from "@/assets/FilterFillIcon.vue";
 
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -11,6 +13,7 @@ const router = useRouter();
 
 const router_type = [
     { name: "搜索与浏览", value: "settings-browse", icon: SearchIcon, icon_fill: SearchIcon },
+    { name: "结果与筛选", value: "settings-filter", icon: FilterIcon, icon_fill: FilterFillIcon },
     { name: "网络与代理", value: "settings-network", icon: NetworkIcon, icon_fill: NetworkIcon },
 ];
 
