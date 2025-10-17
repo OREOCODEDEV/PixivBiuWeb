@@ -31,17 +31,17 @@ const is_activated_route = computed(() => {
 </script>
 
 <template>
-    <div class="flex h-20 grow flex-row rounded-full bg-gray-100 mb-4">
+    <div class="flex grow flex-row rounded-full bg-gray-100 mb-4">
         <template v-for="current_type of router_type">
             <RouterLink
                 :to="{ name: current_type.value, params: route.params, query: route.query }"
                 class="flex grow cursor-pointer flex-row items-center justify-center rounded-full"
                 :class="[is_activated_route(current_type.value) ? 'bg-blue-200' : 'hover:bg-gray-300']"
             >
-                <div class="flex rounded-full p-1 px-4">
+                <div class="flex rounded-full m-4">
                     <component :is="current_type.icon" v-if="!is_activated_route(current_type.value)"></component>
                     <component :is="current_type.icon_fill" v-else></component>
-                    <span class="font-bold" :class="[is_activated_route(current_type.value) ? 'text-blue-900' : 'text-gray-700']"> {{ current_type.name }}</span>
+                    <span class="font-bold ml-2" :class="[is_activated_route(current_type.value) ? 'text-blue-900' : 'text-gray-700']"> {{ current_type.name }}</span>
                 </div>
             </RouterLink>
         </template>
