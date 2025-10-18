@@ -85,20 +85,19 @@ function refresh_request_data() {
 }
 
 const grid_size_cls = computed(() => {
-    // 设置项：预览大小
-    // grid-cols-4 gap-1 md:grid-cols-5 lg:grid-cols-6 lg:gap-4 xl:grid-cols-7 xl:gap-6 2xl:grid-cols-8 2xl:gap-8
-    // switch (getSettings("settings_browse_size").value) {
-    //     case "small":
-    //         return "grid-cols-10 gap-8";
-    //         break;
-    //     case "medium":
-    //         return "grid-cols-8 gap-8";
-    //         break;
-    //     case "large":
-    //         return "grid-cols-6 gap-8";
-    //         break;
-    // }
-    return `grid-cols-${getSettings("settings_browse_row_count").value} gap-8`
+    // todo: 怪问题，启用自适应之后只有设置了一行8个才能正常触发自适应，设置一行6或10都会有问题
+    // 设置项：预览大小&允许自适应
+    if (getSettings("settings_browse_allow_adjust_row_count").value == "1") {
+        const size_types = ["sm", "md", "lg", "xl", "2xl"].reverse();
+        let result = [];
+        for (let index in size_types) {
+            result.push(`${size_types[index]}:grid-cols-${Number(getSettings("settings_browse_row_count").value - index)} gap-${8 - index}`);
+            // result.push(`${size_types[index]}:grid-cols-${Number(getSettings("settings_browse_row_count").value - index)}`);
+            // result.push(`${size_types[index]}:gap-${8 - index}`);
+        }
+        return `grid-cols-2 gap-3 ${result.reverse().join(" ")}`;
+    }
+    return `grid-cols-${getSettings("settings_browse_row_count").value} gap-8`;
 });
 
 watch(request_params, () => {
