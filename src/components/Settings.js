@@ -1,7 +1,5 @@
 import { ref, computed, reactive } from "vue";
 
-console.log("Settings module init.");
-console.log(localStorage.getItem("settings"));
 const application_settings = ref(localStorage.getItem("settings") === null ? {} : JSON.parse(localStorage.getItem("settings")));
 // setInterval(() => {
 //     console.log(application_settings.value);
@@ -24,11 +22,6 @@ const getSettings = (key) => {
         get: () => application_settings.value[key],
         set: (val) => (application_settings.value[key] = val),
     });
-    // if (application_settings.value[key] === undefined) {
-    //     application_settings.value[key] = ref(default_value);
-    // }
-    // console.log("get-settings", key, default_value, application_settings.value[key]);
-    // return application_settings.value[key];
 };
 
 const generateModelGroup = (options = settings_group) => {
@@ -40,7 +33,15 @@ const generateModelGroup = (options = settings_group) => {
 };
 
 const saveSettings = () => {
-    localStorage.setItem("settings", JSON.stringify(application_settings.value));
+    // 只保存与默认配置不一致的内容
+    let save_options = {};
+    for (let key of Object.keys(application_settings.value)) {
+        if (application_settings.value[key] == settings_group[key]) {
+            continue;
+        }
+        save_options[key] = application_settings.value[key];
+    }
+    localStorage.setItem("settings", JSON.stringify(save_options));
 };
 
 export { getSettings, generateModelGroup, saveSettings };
