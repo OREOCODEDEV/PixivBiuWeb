@@ -1,15 +1,24 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onBeforeUnmount } from "vue";
 import SelectFromMultiVModel from "@/components/General/SelectFromMultiVModel.vue";
-import { generateModelGroup } from "@/components/Settings.js";
+import { generateModelGroup, saveSettings } from "@/components/Settings.js";
 const settings_model_group = generateModelGroup();
+
+onBeforeUnmount(() => {
+    saveSettings();
+});
 </script>
 
 <template>
     <div class="custom-settings-block">
-        <span class="custom-settings-title">预览大小</span>
-        <span class="custom-settings-description">在搜索预览时展示的图片尺寸大小，设置为小可同时预览更多图片</span>
-        <SelectFromMultiVModel :options="{ 小: 'small', 中: 'medium', 大: 'large' }" v-model="settings_model_group.settings_browse_size" />
+        <span class="custom-settings-title">每行图片数量</span>
+        <span class="custom-settings-description">在搜索预览时每行显示的图片数量</span>
+        <SelectFromMultiVModel :options="{ '6': '6', '8': '8', '10': '10' }" v-model="settings_model_group.settings_browse_row_count" />
+    </div>
+    <div class="custom-settings-block">
+        <span class="custom-settings-title">预览内容自适应</span>
+        <span class="custom-settings-description">当窗口宽度不足时，自动调节每行图片数量及图片间距</span>
+        <SelectFromMultiVModel :options="{ 不允许: '0', 允许: '1' }" v-model="settings_model_group.settings_browse_allow_adjust_row_count" />
     </div>
     <div class="custom-settings-block">
         <span class="custom-settings-title">预览分辨率</span>

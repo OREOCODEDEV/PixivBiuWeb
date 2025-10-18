@@ -9,7 +9,8 @@ const application_settings = ref(localStorage.getItem("settings") === null ? {} 
 
 const settings_group = {
     // 所有设置key及默认值
-    settings_browse_size: "medium",
+    settings_browse_row_count: "8",
+    settings_browse_allow_adjust_row_count: "1",
     settings_browse_resolution: "medium",
     settings_view_resolution: "load",
     settings_typebar_sticky: "sticky",
@@ -38,4 +39,8 @@ const generateModelGroup = (options = settings_group) => {
     return result;
 };
 
-export { getSettings, generateModelGroup };
+const saveSettings = () => {
+    localStorage.setItem("settings", JSON.stringify(application_settings.value));
+};
+
+export { getSettings, generateModelGroup, saveSettings };
