@@ -38,7 +38,7 @@ const is_activated_route = computed(() => {
                 class="flex grow cursor-pointer flex-row items-center justify-center rounded-full"
                 :class="[is_activated_route(current_type.value) ? 'bg-blue-200' : 'hover:bg-gray-300']"
             >
-                <div class="flex rounded-full m-4">
+                <div class="flex rounded-full m-7">
                     <component :is="current_type.icon" v-if="!is_activated_route(current_type.value)"></component>
                     <component :is="current_type.icon_fill" v-else></component>
                     <span class="font-bold ml-2" :class="[is_activated_route(current_type.value) ? 'text-blue-900' : 'text-gray-700']"> {{ current_type.name }}</span>

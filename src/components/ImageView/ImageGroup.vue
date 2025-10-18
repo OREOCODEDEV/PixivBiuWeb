@@ -50,6 +50,10 @@ function refresh_local_data() {
     display_data.value = ProcessData(response_dict_data, route);
 }
 
+const is_data_valid = computed(() => {
+    return display_data.value && display_data.value.length != 0;
+});
+
 function refresh_request_data() {
     if (!is_request_params_changes(request_params.value)) {
         // 请求参数未发生变动时不再重复请求，直接对本地数据进行重复处理即可
@@ -90,7 +94,7 @@ onMounted(() => {
 
 <template>
     <div class="relative flex grow flex-col">
-        <div class="mb-4 flex h-60 space-x-6 divide-white" v-if="display_data && display_data.length != 0">
+        <div class="mb-4 flex h-60 space-x-6 divide-white" v-if="is_data_valid">
             <div class="flex w-1/3 flex-1 flex-col space-y-1 rounded-xl bg-gray-100 p-10">
                 <span class="text-4xl font-extrabold"># {{ response_data.msg.args.fun.kt }}</span>
                 <span class="text-gray-500">正在搜索</span>
@@ -99,7 +103,7 @@ onMounted(() => {
             </div>
             <img class="w-2/3 rounded-xl object-cover" :src="display_data[0].image_urls.medium.replace('https://i.pximg.net', 'https://i.pixiv.re')" />
         </div>
-        <div class="sticky top-0 z-20 flex bg-white">
+        <div class="sticky top-0 z-20 flex bg-white" v-if="is_data_valid">
             <!-- <div class="mb-4 flex h-20 grow rounded-full bg-gray-100">
                 <div class="flex grow rounded-full justify-center">
 
@@ -108,7 +112,7 @@ onMounted(() => {
             <MaterialImageTypeBar></MaterialImageTypeBar>
         </div>
 
-        <div class="grid grid-cols-4 gap-1 md:grid-cols-5 lg:grid-cols-6 lg:gap-4 xl:grid-cols-7 xl:gap-6 2xl:grid-cols-8 2xl:gap-8" v-if="display_data && display_data.length != 0">
+        <div class="grid grid-cols-4 gap-1 md:grid-cols-5 lg:grid-cols-6 lg:gap-4 xl:grid-cols-7 xl:gap-6 2xl:grid-cols-8 2xl:gap-8" v-if="is_data_valid">
             <template v-for="current_data of display_data">
                 <Image :image_data="current_data" :modal_ref="image_modal"></Image>
             </template>
