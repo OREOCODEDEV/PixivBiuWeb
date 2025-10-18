@@ -9,6 +9,8 @@ import ImageModal from "./ImageModal.vue";
 import DevData from "./DevData.vue";
 import MaterialImageTypeBar from "../MaterialImageTypeBar.vue";
 
+import { getSettings } from "@/components/Settings.js";
+
 import { ProcessData } from "./DataProcess";
 
 const route = useRoute();
@@ -82,6 +84,22 @@ function refresh_request_data() {
         });
 }
 
+const grid_size_cls = computed(() => {
+    // 设置项：预览大小
+    // grid-cols-4 gap-1 md:grid-cols-5 lg:grid-cols-6 lg:gap-4 xl:grid-cols-7 xl:gap-6 2xl:grid-cols-8 2xl:gap-8
+    switch (getSettings("settings_browse_size").value) {
+        case "small":
+            return "grid-cols-10 gap-8";
+            break;
+        case "medium":
+            return "grid-cols-8 gap-8";
+            break;
+        case "large":
+            return "grid-cols-6 gap-8";
+            break;
+    }
+});
+
 watch(request_params, () => {
     // console.log("URL Params updated:", request_params);
     refresh_request_data();
@@ -112,7 +130,7 @@ onMounted(() => {
             <MaterialImageTypeBar></MaterialImageTypeBar>
         </div>
 
-        <div class="grid grid-cols-4 gap-1 md:grid-cols-5 lg:grid-cols-6 lg:gap-4 xl:grid-cols-7 xl:gap-6 2xl:grid-cols-8 2xl:gap-8" v-if="is_data_valid">
+        <div class="grid" v-if="is_data_valid" :class="grid_size_cls">
             <template v-for="current_data of display_data">
                 <Image :image_data="current_data" :modal_ref="image_modal"></Image>
             </template>

@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+@layer components {
+    .custom-settings-block {
+        @apply max-w-130 w-130 flex flex-col py-4;
+    }
+    .custom-settings-description {
+        @apply w-auto break-all pb-4 text-gray-800;
+    }
+    .custom-settings-title {
+        @apply pb-4 text-xl;
+    }
+    .custom-settings-inputstring {
+        @apply flex items-stretch rounded-xl bg-blue-50 p-6;
+    }
+}
