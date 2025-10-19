@@ -5,8 +5,10 @@ import BackIcon from "@/assets/BackIcon.vue";
 import FilterIcon from "@/assets/FilterIcon.vue";
 import FilterFillIcon from "@/assets/FilterFillIcon.vue";
 
-import { ref, computed } from "vue";
+import { ref, computed, onBeforeUnmount } from "vue";
 import { useRoute, useRouter } from "vue-router";
+
+import { generateModelGroup, saveSettings } from "@/components/Settings.js";
 
 const route = useRoute();
 const router = useRouter();
@@ -26,6 +28,10 @@ const is_activated_route = computed(() => {
 if (route.name == "settings") {
     router.replace({ name: router_type[0].value });
 }
+
+onBeforeUnmount(() => {
+    saveSettings();
+});
 </script>
 
 <template>

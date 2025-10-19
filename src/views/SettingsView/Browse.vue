@@ -1,12 +1,8 @@
 <script setup>
-import { ref, computed, onBeforeUnmount } from "vue";
+import { ref, computed } from "vue";
 import SelectFromMultiVModel from "@/components/General/SelectFromMultiVModel.vue";
 import { generateModelGroup, saveSettings } from "@/components/Settings.js";
 const settings_model_group = generateModelGroup();
-
-onBeforeUnmount(() => {
-    saveSettings();
-});
 </script>
 
 <template>
