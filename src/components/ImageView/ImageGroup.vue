@@ -88,13 +88,12 @@ const grid_size_cls = computed(() => {
     // 设置项：预览大小&允许自适应
     if (getSettings("settings_browse_allow_adjust_row_count").value == "1") {
         const size_types = ["sm", "md", "lg", "xl", "2xl"].reverse();
-        let result = [];
+        let result = ["grid-cols-2", "gap-3"];
         for (let index in size_types) {
-            // result.push(`${size_types[index]}:grid-cols-${Number(getSettings("settings_browse_row_count").value - index)} gap-${8 - index}`);
             result.push(`${size_types[index]}:gap-${8 - index}`);
             result.push(`${size_types[index]}:grid-cols-${Number(getSettings("settings_browse_row_count").value - index)}`);
         }
-        return `grid-cols-2 gap-3 ${result.reverse().join(" ")}`;
+        return result;
     }
     return `grid-cols-${getSettings("settings_browse_row_count").value} gap-8`;
 });

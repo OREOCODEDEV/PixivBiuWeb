@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* 设置safelist修复ImageGroup computed动态生成className导致tailwindcss无法识别问题 */
+@source inline("{sm:,md:,lg:,xl:,2xl:,}grid-cols-{2..10..1}");
+@source inline("{sm:,md:,lg:,xl:,2xl:,}gap-{2..10..1}");
+
 @layer components {
     .custom-settings-block {
         @apply max-w-130 w-130 flex flex-col py-4;
