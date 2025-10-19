@@ -6,7 +6,7 @@ import axios from "axios";
 
 import Image from "./Image.vue";
 import ImageModal from "./ImageModal.vue";
-import DevData from "./DevData.vue";
+import { generate_dev_data } from "./DevData.js";
 import MaterialImageTypeBar from "../MaterialImageTypeBar.vue";
 
 import { getSettings } from "@/components/Settings.js";
@@ -49,6 +49,10 @@ function is_request_params_changes(new_params) {
 }
 
 function refresh_local_data() {
+    response_dict_data = {};
+    for (let i of response_data.value.msg.rst.data) {
+        response_dict_data[i.id] = i;
+    }
     display_data.value = ProcessData(response_dict_data, route);
 }
 
@@ -64,7 +68,7 @@ function refresh_request_data() {
     }
 
     if (request_params.value["kt"] == "PixivBiu:Dev") {
-        response_data.value = DevData.generate_dev_data();
+        response_data.value = generate_dev_data();
         refresh_local_data();
         return;
     }
@@ -75,11 +79,6 @@ function refresh_request_data() {
         })
         .then((response) => {
             response_data.value = response.data;
-            response_dict_data = {};
-            for (let i of response_data.value.msg.rst.data) {
-                response_dict_data[i.id] = i;
-            }
-            // console.log(response_dict_data)
             refresh_local_data();
         });
 }
@@ -91,9 +90,9 @@ const grid_size_cls = computed(() => {
         const size_types = ["sm", "md", "lg", "xl", "2xl"].reverse();
         let result = [];
         for (let index in size_types) {
-            result.push(`${size_types[index]}:grid-cols-${Number(getSettings("settings_browse_row_count").value - index)} gap-${8 - index}`);
-            // result.push(`${size_types[index]}:grid-cols-${Number(getSettings("settings_browse_row_count").value - index)}`);
-            // result.push(`${size_types[index]}:gap-${8 - index}`);
+            // result.push(`${size_types[index]}:grid-cols-${Number(getSettings("settings_browse_row_count").value - index)} gap-${8 - index}`);
+            result.push(`${size_types[index]}:gap-${8 - index}`);
+            result.push(`${size_types[index]}:grid-cols-${Number(getSettings("settings_browse_row_count").value - index)}`);
         }
         return `grid-cols-2 gap-3 ${result.reverse().join(" ")}`;
     }
@@ -130,11 +129,13 @@ onMounted(() => {
             <MaterialImageTypeBar></MaterialImageTypeBar>
         </div>
 
-        <div class="grid" v-if="is_data_valid" :class="grid_size_cls">
-            <template v-for="current_data of display_data">
-                <Image :image_data="current_data" :modal_ref="image_modal"></Image>
-            </template>
-        </div>
+        <template v-if="is_data_valid">
+            <div class="grid" :class="grid_size_cls">
+                <template v-for="current_data of display_data">
+                    <Image :image_data="current_data" :modal_ref="image_modal"></Image>
+                </template>
+            </div>
+        </template>
         <span class="flex-1 text-center align-middle text-xl font-bold text-gray-500" v-else>无可展示内容</span>
     </div>
     <!-- 避免放到Image中导致DOM数量增加 -->

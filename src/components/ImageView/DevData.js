@@ -1,4 +1,3 @@
-<script setup>
 import raw_test_data from "../../assets/testcase/result.json"
 
 // 生成测试数据
@@ -36,6 +35,7 @@ function generate_dev_data() {
         target_data.image_urls = image_link_group
         target_data.tags = ["PixivBiu:Dev", `分辨率-${resolution}`, `方向-${direction_chr}`]
         target_data.title = `${resolution}-${direction_chr}`
+        target_data.id = `${resolution}${direction}`
 
         return target_data
     }
@@ -47,14 +47,11 @@ function generate_dev_data() {
     }
 
     result.msg.rst.total = result.msg.rst.data.length
-    console.log(result)
-    return { data: result }
+    // console.log(result)
+    // return { data: result }
+    return result
 }
 
-defineExpose({
+export{
     generate_dev_data,
-})
-</script>
-
-<template>
-</template>
+}
