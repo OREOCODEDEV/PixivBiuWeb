@@ -10,9 +10,9 @@ const settings_group = {
     settings_browse_row_count: "8",
     settings_browse_allow_adjust_row_count: "1",
     settings_browse_resolution: "medium",
-    settings_view_resolution: "load",
-    settings_typebar_sticky: "sticky",
-    settings_network_image_proxy: "https://i.pixiv.re/",
+    settings_view_resolution: "1",
+    settings_typebar_sticky: "1",
+    settings_network_image_proxy: "https://i.pixiv.re",
 };
 
 const getSettings = (key) => {

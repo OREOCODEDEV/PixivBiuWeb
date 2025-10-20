@@ -1,8 +1,9 @@
 <script setup>
 import { nextTick, defineComponent, ref, watch, computed } from "vue";
 import LoadingIcon from "@/assets/LoadingIcon.vue";
-import CrossIcon from "@/assets/CrossIcon.vue";
 import Modal from "../General/Modal.vue";
+
+import { getSettings } from "@/components/Settings.js";
 
 // const props = defineProps(["image_data"])
 
@@ -10,6 +11,8 @@ const original_image_load_state = ref(false);
 const img_large = ref(null);
 const image_data = ref(null);
 const img_pop_modal = ref(null);
+
+const require_load_large_img_state = getSettings("settings_browse_resolution").value != "large" && getSettings("settings_view_resolution").value == "1";
 
 const multi_image_count = computed(() => {
     // if (image_data.value.all.meta_pages.length) {
@@ -28,9 +31,14 @@ function img_load() {
 
 async function show(data) {
     image_data.value = data;
-    original_image_load_state.value = false;
     image_view_id.value = 0;
-    image_load_count.value = 0;
+    if (require_load_large_img_state) {
+        original_image_load_state.value = false;
+        image_load_count.value = 0;
+    } else {
+        original_image_load_state.value = true;
+        image_load_count.value = 1;
+    }
     await nextTick(); // 等Modal的v-if才能获取ref
     img_pop_modal.value.show();
 }
@@ -67,11 +75,17 @@ defineExpose({
     <Modal ref="img_pop_modal" v-if="image_data">
         <div class="flex" @wheel="on_scroll_wheel">
             <div class="flex">
-                <img class="object-contain" v-show="!original_image_load_state && image_view_id == 0" :src="image_data.image_urls.medium.replace('https://i.pximg.net', 'https://i.pixiv.re')" />
-                <img class="object-contain" v-show="original_image_load_state && image_view_id == 0" @load="img_load" :src="image_data.image_urls.large.replace('https://i.pximg.net', 'https://i.pixiv.re')" ref="img_large" />
+                <img class="object-contain" v-show="(!original_image_load_state && image_view_id == 0) || !require_load_large_img_state" :src="image_data.image_urls[getSettings('settings_browse_resolution').value]" />
+                <img class="object-contain" v-show="original_image_load_state && image_view_id == 0" @load="img_load" :src="image_data.image_urls.large" ref="img_large" v-if="require_load_large_img_state" />
                 <template v-if="multi_image_count">
                     <template v-for="val in multi_image_count - 1">
-                        <img class="object-contain" v-show="val == image_view_id" @load="image_load_count += 1" :src="image_data.all.meta_pages[val].image_urls.large.replace('https://i.pximg.net', 'https://i.pixiv.re')" ref="img_large" />
+                        <img
+                            class="object-contain"
+                            v-show="val == image_view_id"
+                            @load="image_load_count += 1"
+                            :src="image_data.all.meta_pages[val].image_urls[getSettings('settings_view_resolution').value == '1' ? 'large' : getSettings('settings_browse_resolution').value]"
+                            ref="img_large"
+                        />
                     </template>
                 </template>
             </div>

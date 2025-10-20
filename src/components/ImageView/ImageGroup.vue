@@ -120,7 +120,7 @@ onMounted(() => {
             </div>
             <img class="w-2/3 rounded-xl object-cover" :src="display_data[0].image_urls[getSettings('settings_browse_resolution').value]" />
         </div>
-        <div class="flex bg-white" v-if="is_data_valid" :class="getSettings('settings_typebar_sticky').value == 'sticky' ? 'sticky top-0 z-20' : ''">
+        <div class="flex bg-white" v-if="is_data_valid" :class="getSettings('settings_typebar_sticky').value == '1' ? 'sticky top-0 z-20' : ''">
             <!-- <div class="mb-4 flex h-20 grow rounded-full bg-gray-100">
                 <div class="flex grow rounded-full justify-center">
 
