@@ -137,6 +137,7 @@ onMounted(() => {
             </div>
         </template>
         <span class="flex-1 text-center align-middle text-xl font-bold text-gray-500" v-else>无可展示内容</span>
+        <div class="h-30 w-full"></div>
     </div>
     <!-- 避免放到Image中导致DOM数量增加 -->
     <ImageModal ref="image_modal"></ImageModal>
