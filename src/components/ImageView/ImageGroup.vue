@@ -10,6 +10,7 @@ import { generate_dev_data } from "./DevData.js";
 import MaterialImageTypeBar from "../MaterialImageTypeBar.vue";
 
 import { getSettings } from "@/components/Settings.js";
+// import { get_maximum_preview_quality } from "@/components/utils.js";
 
 import { ProcessData } from "./DataProcess";
 
@@ -117,7 +118,7 @@ onMounted(() => {
                 <span class="">共 {{ Object.keys(response_dict_data).length }} 张，筛选后展示 {{ display_data.length }} 张</span>
                 <span v-if="Object.keys(route.query).length" class="font-bold text-blue-500">当前有 {{ Object.keys(route.query).length }} 项生效的筛选</span>
             </div>
-            <img class="w-2/3 rounded-xl object-cover" :src="display_data[0].image_urls.medium.replace('https://i.pximg.net', 'https://i.pixiv.re')" />
+            <img class="w-2/3 rounded-xl object-cover" :src="display_data[0].image_urls[getSettings('settings_browse_resolution').value]" />
         </div>
         <div class="flex bg-white" v-if="is_data_valid" :class="getSettings('settings_typebar_sticky').value == 'sticky' ? 'sticky top-0 z-20' : ''">
             <!-- <div class="mb-4 flex h-20 grow rounded-full bg-gray-100">

@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-
+import { getSettings } from "@/components/Settings.js";
 const props = defineProps(["image_data", "modal_ref"]);
 </script>
 
@@ -8,7 +8,10 @@ const props = defineProps(["image_data", "modal_ref"]);
     <div class="flex min-w-20 flex-col">
         <div class="relative flex overflow-hidden rounded-xl">
             <div class="flex grow self-stretch">
-                <img class="aspect-square grow rounded-xl object-cover object-top" :src="props.image_data.image_urls.medium.replace('https://i.pximg.net', 'https://i.pixiv.re')" />
+                <img
+                    class="aspect-square grow rounded-xl object-cover object-top"
+                    :src="props.image_data.image_urls[getSettings('settings_browse_resolution').value]"
+                />
             </div>
             <!-- 单独设置一个对图片底部黑色渐变的遮罩层 -->
             <div class="z-5 absolute bottom-0 left-0 right-0 top-0">

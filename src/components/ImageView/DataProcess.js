@@ -1,7 +1,32 @@
+import { getSettings } from "../Settings";
+
 function get_query_safe(route, key, default_value) {
     // 从查询参数中取值，无则返回默认参数的值
     return route.query[key] === undefined ? default_value : route.query[key];
 }
+
+function internal_replace_imgurls(import_data) {
+    // 更新数据中的图片URL为代理域名
+    for (let current_data in import_data) {
+        for (let i in import_data[current_data].image_urls) {
+            import_data[current_data].image_urls[i] = import_data[current_data].image_urls[i].replace("https://i.pximg.net", getSettings("settings_network_image_proxy").value);
+        }
+        for (let i in import_data[current_data].all.image_urls) {
+            import_data[current_data].all.image_urls[i] = import_data[current_data].all.image_urls[i].replace("https://i.pximg.net", getSettings("settings_network_image_proxy").value);
+        }
+        if (import_data[current_data].all.meta_single_page.original_image_url !== undefined) {
+            import_data[current_data].all.meta_single_page.original_image_url = import_data[current_data].all.meta_single_page.original_image_url.replace("https://i.pximg.net", getSettings("settings_network_image_proxy").value);
+        }
+        for (let i in import_data[current_data].all.meta_pages) {
+            for (let j in import_data[current_data].all.meta_pages[i].image_urls) {
+                import_data[current_data].all.meta_pages[i].image_urls[j] = import_data[current_data].all.meta_pages[i].image_urls[j].replace("https://i.pximg.net", getSettings("settings_network_image_proxy").value);
+            }
+        }
+    }
+    return import_data;
+}
+
+const POST_PROCESS_METHODS = [internal_replace_imgurls];
 
 function ProcessData(import_data, route) {
     const query_sort_type = get_query_safe(route, "sorttype", "favourite");
@@ -103,18 +128,9 @@ function ProcessData(import_data, route) {
         }
     }
 
-    // for (let i of result_data) {
-    //     let dbg_str = `${query_sort_type}: ${i[sort_type_map[query_sort_type].key]}; `;
-    //     for (let j of Object.keys(filter_options)) {
-    //         if (j.min === null && j.max === null) {
-    //             continue;
-    //         }
-    //         dbg_str += `${j}: ${i[range_filter_type_map[j].key]}; `;
-    //     }
-    //     console.log(dbg_str);
-    // }
-    // console.log(result_data);
-    console.log(`Got ${result_data.length} results after filter(s)`);
+    for (let current_postprocess of POST_PROCESS_METHODS) {
+        result_data = current_postprocess(result_data);
+    }
 
     return result_data;
 }

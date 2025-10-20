@@ -1,5 +1,6 @@
 <script setup>
-const storage = localStorage;
+import { generateModelGroup, saveSettings } from "@/components/Settings.js";
+const settings_model_group = generateModelGroup();
 </script>
 
 <template>
@@ -7,7 +8,7 @@ const storage = localStorage;
         <span class="custom-settings-title">代理地址</span>
         <span class="custom-settings-description">设置用于加载图片的反向代理地址</span>
         <div class="custom-settings-inputstring">
-            <input type="text" :value="storage.getItem('settings_proxy_server') ? storage.getItem('settings_proxy_server') : 'https://i.pximg.net'" class="focus:outline-none" />
+            <input type="text" class="focus:outline-none" v-model="settings_model_group.settings_network_image_proxy" />
         </div>
     </div>
 </template>

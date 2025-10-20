@@ -12,6 +12,7 @@ const settings_group = {
     settings_browse_resolution: "medium",
     settings_view_resolution: "load",
     settings_typebar_sticky: "sticky",
+    settings_network_image_proxy: "https://i.pixiv.re/",
 };
 
 const getSettings = (key) => {
